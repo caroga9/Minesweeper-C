@@ -1,7 +1,3 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-
 #include"board.h"
 
 void initialize_field(Minesweeper m)
@@ -10,7 +6,7 @@ void initialize_field(Minesweeper m)
     create_mines(m);
     number_fields(m);
     create_mask(m);
-    print_grid(m, m.board);
+    
     printf("\n");
     
 }
@@ -119,17 +115,22 @@ int timer(Minesweeper m)
     printf("%lo\n", current_time);
     printf("%lo\n", time_passed);*/
     time_t now = time(0);
-    printf("now: %lo\n", now);
+    
     int time_passed;
     time_passed = now - *m.ptr_start_time;
-    printf("passed: %d\n", time_passed);
+    
 
     return time_passed;
 }
-void print_grid(Minesweeper m, int** grid)
+void print_grid(Minesweeper m, int** grid, bool **first_round)
 {   
-    printf("Number of mines: %d\nTiles marked as armed: %d\nTime elapsed: %ds\n ", m.mines, *m.ptr_number_tiles_armed, timer(m));
-
+    system("clear"); // in anderem Betriebssystem anpassen --> readme
+    printf("Number of mines: %d\nTiles marked as armed: %d\n", m.mines, *m.ptr_number_tiles_armed );
+    //printf("Number tiles revealed: %d", *m.ptr_number_tiles_revealed);
+    if(!**first_round)
+    {
+        printf("Time elapsed: %ds\n ",timer(m));
+    }
     int i,j;
     for(j=1; j<= m.columns ; j++)
         {

@@ -6,18 +6,19 @@
 #include"board.h"
 
 //warum kommt die Frage doppelt? hat was mit Enter zu tun nehme ich an
-void get_user_action(Minesweeper m, bool ptr_first_round)
+void get_user_action(Minesweeper m, bool *first_round)
 {   
     char action;
     do
     {   
-        print_grid(m, m.mask);
-        printf("What would you like to do?\nYour options are: r (reveal tile), a (arm tile), d (disarm tile), h (get help), q (quit game).\n ");
+        
+        print_grid(m, m.mask, &first_round);
+        printf("\nWhat would you like to do?\nYour options are: r (reveal tile), a (arm tile), d (disarm tile), h (get help), q (quit game).\n");
         scanf("%c", &action);
 
         if(action == 'r')
         {
-            reveal_tile(m, ptr_first_round);
+            reveal_tile(m, &first_round);
             
         }
         if(action == 'a')
@@ -46,7 +47,7 @@ void get_user_action(Minesweeper m, bool ptr_first_round)
 
 }
 
-void reveal_tile(Minesweeper m, bool ptr_first_round)
+void reveal_tile(Minesweeper m, bool **first_round)
 {   
     int tile_row, tile_column;
     do
@@ -60,7 +61,8 @@ void reveal_tile(Minesweeper m, bool ptr_first_round)
         }
     }while((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0));
 
-    if(*ptr_first_round)
+    
+    if(**first_round)
     {
         while(m.board[tile_row][tile_column] == MINE_TILE)
         {   
@@ -78,8 +80,10 @@ void reveal_tile(Minesweeper m, bool ptr_first_round)
             initialize_field(m);
         }
 
-
-        *ptr_first_round = false;
+        time_t start_time = time(0);
+        *m.ptr_start_time = start_time;
+        
+        **first_round = false;
 
     }
     check_revealed_tile(m, tile_row, tile_column);
@@ -130,12 +134,6 @@ void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
 
     else
     {   
-        if(*m.ptr_number_tiles_revealed == (m.rows*m.columns - m.mines))
-        {
-            won_game(m, tile_row, tile_column);
-        }
-        else
-        {   
             if(chosen_tile == EMPTY_TILE)
             {
                 //flood-fill
@@ -145,13 +143,19 @@ void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
             }
             else
             {
-                *m.ptr_number_tiles_revealed += 1; 
+                //*m.ptr_number_tiles_revealed += 1; 
+                
+                //if(*m.ptr_number_tiles_revealed == (m.rows*m.columns - m.mines))
+                //{
+                //    won_game(m, tile_row, tile_column);
+                //}
                 m.mask[tile_row][tile_column] = m.board[tile_row][tile_column];
                 
             }
-            
-        }
     }
+
+    count_revealed_tiles(m, tile_row, tile_column);
+    
 }
 void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
 {   
@@ -198,7 +202,7 @@ void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
             }
 
             m.mask[a][b] = m.board[a][b];
-            *m.ptr_number_tiles_revealed += 1; 
+            //*m.ptr_number_tiles_revealed += 1; 
 
             if(m.board[a][b] == EMPTY_TILE)
             {
@@ -208,9 +212,36 @@ void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
     }
 
 }
+
+void count_revealed_tiles(Minesweeper m, int tile_row, int tile_column)
+{
+    int number_tiles_revealed = 0;
+    int i,j;
+    for(i = 1; i <= m.rows; i++)
+    {
+        
+        for(j = 1; j <= m.columns; j++)
+        {
+            if(m.mask[i][j] == m.board[i][j])
+            {
+                number_tiles_revealed++;
+            } 
+            
+        }  
+    
+    if(number_tiles_revealed == (m.rows*m.columns - m.mines))
+    {
+        won_game(m, tile_row, tile_column);
+    }
+
+    }
+
+}
 void lost_game(Minesweeper m,int loser_row, int loser_column)
 {   
     // Feld nochmal printen mit loser_tile und Farben
+    system("clear"); // in anderem Betriebssystem anpassen --> readme
+
     print_lost();
     
     game_over(m);
@@ -220,15 +251,25 @@ void arm_tile(Minesweeper m)
 {
     int tile_row, tile_column;
     do
-    {
+    {   
+        //input abfangen
         printf("Which tile do you want to set as armed?\n");
         scanf("%d %d", &tile_row, &tile_column);
+        
         
         if((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0))
         {
             printf("This is not on the board.\n");
         }
-    }while((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0));
+        if(m.mask[tile_row][tile_column] == m.board[tile_row][tile_column])
+        {
+            printf("You cannot arm an open tile.\n");
+        }
+        else
+        {
+            break;
+        }
+    }while(true);
 
     m.mask[tile_row][tile_column] = ARMED_TILE;
 
@@ -242,7 +283,7 @@ void disarm_tile(Minesweeper m)
     if(*m.ptr_number_tiles_armed == 0)
     {
         printf("There are no armed tiles to disarm.\n");
-        printf("\n");
+        sleep(2);
     }
 
     else
@@ -274,6 +315,7 @@ void disarm_tile(Minesweeper m)
 void print_inGame_help()
 {
     printf("Hilfstext\n");
+
     printf("\n");
    
 }
@@ -284,6 +326,8 @@ void print_inGame_help()
 void won_game(Minesweeper m, int winner_row, int winner_column)
 {   
     //Feld nochmal printen mit winner_tile und Farben
+    system("clear"); // in anderem Betriebssystem anpassen --> readme
+
     print_won();
     game_over(m);
 }
@@ -292,14 +336,14 @@ void game_over(Minesweeper m)
 {
     int i;
 
-    for (i = 0; i < m.rows; i++) 
+    for (i = 0; i < m.rows+2; i++) 
     {
     free(m.mask[i]);
     }
 
     free(m.mask);
 
-    for (i = 0; i < m.rows; i++) 
+    for (i = 0; i < m.rows+2; i++) 
     {
         free(m.board[i]);
     }

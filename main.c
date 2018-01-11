@@ -1,14 +1,21 @@
 #include"board.h"
-//TODO: Problem mit doppelt printen lösen
-//      Argumente aus Kommandozeile evaluieren (+ getopt Funktion anschauen)
+
+//TODO: 
+//      User Input in reveal tile abfangen
+//      Argumente aus Kommandozeile evaluieren (+ getopt Funktion anschauen + Hilfstext schreiben)
+//      Default Werte 
 //      angezeigtes Feld verschönern, vor allem alle Felder einheitliche Größe
-//      fancy you won/you lost printen
-//      timer erst nach erstem Aufdecken starten
+//      Am Ende Gewinner/Verlierer Feld zeigen
+//      Farben
+//      ReadMe
+//      Kommentare
+//      Testfunktionen schreiben
+//      Erweiterung
 
 
-//Jan fragen:   wieso geht das mit dem Timer nicht an anderer Stelle?
-//              wieso printed der doppelt?
-//              
+//Jan fragen:   Feld formatieren
+//              Farben
+//                            
 
 
 int main(int argc, char *argv[])
@@ -17,25 +24,45 @@ int main(int argc, char *argv[])
     Minesweeper minesweeper; // setze minesweeper als struct Typ Minesweeper fest
     
     // argv Eingabe überprüfen
-    minesweeper.rows = atoi(argv[1]);
-    minesweeper.columns = atoi(argv[2]);;
-    minesweeper.mines = atoi(argv[3]);
+    if(argc == 1)
+    {
+        minesweeper.rows = 8;
+        minesweeper.columns = 8;
+        minesweeper.mines = 7;
+        minesweeper.boundary = false;
 
-    minesweeper.ptr_number_tiles_revealed = &minesweeper.number_tiles_revealed;
+    }
+    if(argc == 4)
+    {
+        minesweeper.rows = atoi(argv[1]);
+        minesweeper.columns = atoi(argv[2]);
+        minesweeper.mines = atoi(argv[3]);
+    }
+    if(argc == 5)
+    {
+        minesweeper.rows = atoi(argv[1]);
+        minesweeper.columns = atoi(argv[2]);
+        minesweeper.mines = atoi(argv[3]);
+        minesweeper.boundary = true;
+    }
+    if(argc > 5)
+    {
+        printf("Enter either nothing to start default game or numbers in the following order:\n"); 
+        printf("rows rolumns mines (optional: any number for game with boundary conditions)\n");
+        exit(0);
+    }
+    
+    //minesweeper.ptr_number_tiles_revealed = &minesweeper.number_tiles_revealed;
     minesweeper.ptr_start_time = &minesweeper.start_time;
     minesweeper.ptr_number_tiles_armed = &minesweeper.number_tiles_armed;
 
     *minesweeper.ptr_number_tiles_armed = 0;
-    *minesweeper.ptr_number_tiles_revealed = 0;
+    //*minesweeper.ptr_number_tiles_revealed = 0;
     
-    bool first_round;
-    bool ptr_first_round = &first_round;
-    *ptr_first_round = true;
+    bool first_round = true;
+
     
     
-    time_t start_time = time(0);
-    *minesweeper.ptr_start_time = start_time;
-    printf("start: %lo\n", *minesweeper.ptr_start_time);
 
     int i;
     minesweeper.board = malloc((minesweeper.rows +2) * sizeof *minesweeper.board);
@@ -49,18 +76,19 @@ int main(int argc, char *argv[])
     }
 
     print_minesweeper();
+    sleep(3);
     initialize_field(minesweeper);
     
-    get_user_action(minesweeper, first_round);
+    get_user_action(minesweeper, &first_round);
    
     
 
-    for (i = 0; i < minesweeper.rows; i++) {
+    for (i = 0; i < minesweeper.rows+2; i++) {
         free(minesweeper.mask[i]);
     }
     free(minesweeper.mask);
 
-    for (i = 0; i < minesweeper.rows; i++) {
+    for (i = 0; i < minesweeper.rows+2; i++) {
         free(minesweeper.board[i]);
     }
     free(minesweeper.board);
