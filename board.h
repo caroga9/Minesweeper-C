@@ -11,6 +11,8 @@ void create_mask(Minesweeper m);
 
 void initialize_field(Minesweeper m);
 
+void create_boundary_condition(Minesweeper m);
+
 void print_grid(Minesweeper m, int** array, bool **first_round);
 
 int timer(Minesweeper m);

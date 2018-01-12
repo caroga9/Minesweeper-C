@@ -5,13 +5,15 @@
 
 #include"board.h"
 
+
 //warum kommt die Frage doppelt? hat was mit Enter zu tun nehme ich an
 void get_user_action(Minesweeper m, bool *first_round)
 {   
     char action;
     do
     {   
-        
+        system("clear"); // in anderem Betriebssystem anpassen --> readme
+        print_grid(m, m.board, &first_round);
         print_grid(m, m.mask, &first_round);
         printf("\nWhat would you like to do?\nYour options are: r (reveal tile), a (arm tile), d (disarm tile), h (get help), q (quit game).\n");
         scanf("%c", &action);
@@ -231,7 +233,7 @@ void count_revealed_tiles(Minesweeper m, int tile_row, int tile_column)
     
     if(number_tiles_revealed == (m.rows*m.columns - m.mines))
     {
-        won_game(m, tile_row, tile_column);
+        won_game(m);
     }
 
     }
@@ -323,7 +325,7 @@ void print_inGame_help()
 
 
 
-void won_game(Minesweeper m, int winner_row, int winner_column)
+void won_game(Minesweeper m)
 {   
     //Feld nochmal printen mit winner_tile und Farben
     system("clear"); // in anderem Betriebssystem anpassen --> readme

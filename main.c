@@ -1,16 +1,15 @@
 #include"board.h"
 
 //TODO: 
-//      User Input in reveal tile abfangen
-//      Argumente aus Kommandozeile evaluieren (+ getopt Funktion anschauen + Hilfstext schreiben)
-//      Default Werte 
+//      User Input in reveal tile und arm/disarm tile abfangen
+//      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen + Hilfstext schreiben)
 //      angezeigtes Feld verschönern, vor allem alle Felder einheitliche Größe
 //      Am Ende Gewinner/Verlierer Feld zeigen
 //      Farben
 //      ReadMe
 //      Kommentare
 //      Testfunktionen schreiben
-//      Erweiterung
+
 
 
 //Jan fragen:   Feld formatieren
@@ -37,6 +36,7 @@ int main(int argc, char *argv[])
         minesweeper.rows = atoi(argv[1]);
         minesweeper.columns = atoi(argv[2]);
         minesweeper.mines = atoi(argv[3]);
+        minesweeper.boundary = false;
     }
     if(argc == 5)
     {
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
         printf("rows rolumns mines (optional: any number for game with boundary conditions)\n");
         exit(0);
     }
-    
+
     //minesweeper.ptr_number_tiles_revealed = &minesweeper.number_tiles_revealed;
     minesweeper.ptr_start_time = &minesweeper.start_time;
     minesweeper.ptr_number_tiles_armed = &minesweeper.number_tiles_armed;
@@ -61,8 +61,6 @@ int main(int argc, char *argv[])
     
     bool first_round = true;
 
-    
-    
 
     int i;
     minesweeper.board = malloc((minesweeper.rows +2) * sizeof *minesweeper.board);

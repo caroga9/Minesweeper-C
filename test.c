@@ -1,45 +1,28 @@
-#include<stdio.h>
-#include<time.h>
-#include<stdlib.h>
-#include <stdbool.h>
+#include <stdio.h>
+#include <setjmp.h>
 
-void third_test(bool ***first_round)
+#define TRY do{ jmp_buf ex_buf__; if( !setjmp(ex_buf__) ){
+#define CATCH } else {
+#define ETRY } }while(0)
+#define THROW longjmp(ex_buf__, 1)
+
+int
+main(int argc, char** argv)
 {
-     if(***first_round)
-    {
-        
-        printf("yes!");
-    }
-}
-void second_test(bool **first_round)
-{
-   **first_round = false;
-   third_test(&first_round);
-    
-}
-void test_function(bool *first_round)
-{
-    
-    second_test(&first_round);
-}
+   TRY
+   {    
+        int tile_row, tile_column;
+        printf("Which tile do you want to reveal?\n");
+        scanf("%d %d", &tile_row, &tile_column);
+        printf("In Try Statement\n");
 
+        printf("I do not appear\n");
+   }
+   CATCH
+   {
+      printf("Got Exception!\n");
+   }
+   ETRY;
 
-int main(void)
-{   
-     // setze minesweeper als struct Typ Minesweeper fest
-    /*m.ptr_nr_tiles_revealed = &m.number_tiles_revealed;
-    *m.ptr_nr_tiles_revealed = 3;
-    printf("%d", m.number_tiles_revealed);
-    test_function(m);
-    printf("%d", m.number_tiles_revealed);*/
-    /*clock_t start_time = clock();
-    printf("%lo\n", start_time);
-    *m.ptr_start_time = start_time;*/
-    bool first_round = true;
-    printf("%d", first_round);
-    //printf("%d", &first_round);
-    
-    test_function(&first_round);
-   
-
+   return 0;
 }

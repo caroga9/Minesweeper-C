@@ -1,9 +1,42 @@
 #include"board.h"
 
+void create_boundary_coundition(Minesweeper m)
+{
+    //making sure corner tiles get correct neighbours
+    m.board[0][0] = m.board[m.rows][m.columns];
+    m.board[0][m.columns + 1] = m.board[m.rows][1];
+    m.board[m.rows +1][0] = m.board[1][m.columns];
+    m.board[m.rows +1][m.columns +1] = m.board[1][1];
+
+    int j;
+    // same for other border tiles
+    
+    for(j = 1; j <= (m.columns); j++)
+    {
+        //first row
+        m.board[0][j] = m.board[m.rows][j];
+        //last row
+        m.board[m.rows+1][j] = m.board[1][j];
+    }
+
+
+    for(j = 1; j <= (m.rows); j++)
+    {
+        //first column
+        m.board[j][0] = m.board[j][m.columns];
+        //last column
+        m.board[j][m.columns + 1] = m.board[j][1];
+    }
+}
+
 void initialize_field(Minesweeper m)
 {   
 
     create_mines(m);
+    if(m.boundary)
+    {
+        create_boundary_coundition(m);
+    }
     number_fields(m);
     create_mask(m);
     
@@ -24,6 +57,29 @@ void create_mask(Minesweeper m)
         }  
     }
 }
+
+void create_mines(Minesweeper m)
+{
+    int position_row, position_column; 
+    srand(time(NULL)); 
+
+    for(int mine = 0; mine < m.mines; mine++)
+    {
+        
+        do {
+            position_row = rand() % ((m.rows + 1) - 1) + 1;
+            position_column = rand() % ((m.columns + 1) - 1) +1;
+
+           } while (m.board[position_row][position_column] == MINE_TILE); // 42 in Ascii ist *
+        
+        m.board[position_row][position_column] = MINE_TILE;
+        //printf("Mine: %d, %d\n", position_row, position_column);
+
+    }
+
+    
+}
+
 
 void number_fields(Minesweeper m)
 {   
@@ -84,27 +140,6 @@ void number_fields(Minesweeper m)
     }
 }
 
-void create_mines(Minesweeper m)
-{
-    int position_row, position_column; 
-    srand(time(NULL)); 
-
-    for(int mine = 0; mine < m.mines; mine++)
-    {
-        
-        do {
-            position_row = rand() % ((m.rows + 1) - 1) + 1;
-            position_column = rand() % ((m.columns + 1) - 1) +1;
-
-           } while (m.board[position_row][position_column] == MINE_TILE); // 42 in Ascii ist *
-        
-        m.board[position_row][position_column] = MINE_TILE;
-        //printf("Mine: %d, %d\n", position_row, position_column);
-
-    }
-
-    
-}
 
 int timer(Minesweeper m)
 {
@@ -124,7 +159,7 @@ int timer(Minesweeper m)
 }
 void print_grid(Minesweeper m, int** grid, bool **first_round)
 {   
-    system("clear"); // in anderem Betriebssystem anpassen --> readme
+
     printf("Number of mines: %d\nTiles marked as armed: %d\n", m.mines, *m.ptr_number_tiles_armed );
     //printf("Number tiles revealed: %d", *m.ptr_number_tiles_revealed);
     if(!**first_round)
