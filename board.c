@@ -80,7 +80,7 @@ void create_mines(Minesweeper m)
     
 }
 
-
+// könnte effizienter gemacht werden mit Jans Art
 void number_fields(Minesweeper m)
 {   
     int i,j;
@@ -90,6 +90,7 @@ void number_fields(Minesweeper m)
         {
             if (m.board[i][j] != MINE_TILE)
             {   
+                
                 int count = 0;
                 for(int a = (i-1); a <= (i+1); a++)
                 { 
@@ -177,7 +178,7 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
     {   
         printf("%d ", i);
         for(j=1; j<= m.columns ; j++)
-        {
+        {   
             if((grid[i][j] == COVERED_TILE) || (grid[i][j] == MINE_TILE) || (grid[i][j] == ARMED_TILE) || (grid[i][j] == BORDER_TILE) || (grid[i][j] == EMPTY_TILE))
             {
                 printf("| %c", grid[i][j]);

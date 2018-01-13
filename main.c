@@ -3,7 +3,7 @@
 //TODO: 
 //      User Input in reveal tile und arm/disarm tile abfangen
 //      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen + Hilfstext schreiben)
-//      angezeigtes Feld verschönern, vor allem alle Felder einheitliche Größe
+//      angezeigtes Feld verschönern
 //      Am Ende Gewinner/Verlierer Feld zeigen
 //      Farben
 //      ReadMe
@@ -12,7 +12,7 @@
 
 
 
-//Jan fragen:   Feld formatieren
+//Jan fragen:   
 //              Farben
 //                            
 
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     Minesweeper minesweeper; // setze minesweeper als struct Typ Minesweeper fest
     
     // argv Eingabe überprüfen
-    if(argc == 1)
+    if(argc < 3)
     {
         minesweeper.rows = 8;
         minesweeper.columns = 8;

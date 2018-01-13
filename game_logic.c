@@ -169,7 +169,8 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
         for(int a = (tile_row -1); a <= (tile_row +1); a++)
         { 
             for(int b =(tile_column -1); b<= (tile_column +1); b++)
-            {
+            {   
+                
                 if (m.mask[a][b] == ARMED_TILE)
                 {
                     count++;
