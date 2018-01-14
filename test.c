@@ -1,28 +1,25 @@
 #include <stdio.h>
-#include <setjmp.h>
 
-#define TRY do{ jmp_buf ex_buf__; if( !setjmp(ex_buf__) ){
-#define CATCH } else {
-#define ETRY } }while(0)
-#define THROW longjmp(ex_buf__, 1)
+#define ANSI_COLOR_PURPLE     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
-int
-main(int argc, char** argv)
-{
-   TRY
-   {    
-        int tile_row, tile_column;
-        printf("Which tile do you want to reveal?\n");
-        scanf("%d %d", &tile_row, &tile_column);
-        printf("In Try Statement\n");
 
-        printf("I do not appear\n");
-   }
-   CATCH
-   {
-      printf("Got Exception!\n");
-   }
-   ETRY;
+int main (int argc, char const *argv[]) {
 
-   return 0;
+  int x = 3;
+  printf(ANSI_COLOR_PURPLE);
+  printf("This text is PURPLE! %d", x);
+  printf(ANSI_COLOR_RESET "\n");
+  printf(ANSI_COLOR_GREEN   "This text is GREEN!"   ANSI_COLOR_RESET "\n");
+  printf(ANSI_COLOR_YELLOW  "This text is YELLOW!"  ANSI_COLOR_RESET "\n");
+  printf(ANSI_COLOR_BLUE    "This text is BLUE!"    ANSI_COLOR_RESET "\n");
+  printf(ANSI_COLOR_MAGENTA "This text is MAGENTA!" ANSI_COLOR_RESET "\n");
+  printf(ANSI_COLOR_CYAN    "This text is CYAN!"    ANSI_COLOR_RESET "\n");
+
+  return 0;
 }

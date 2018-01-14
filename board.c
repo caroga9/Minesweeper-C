@@ -168,25 +168,39 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
         printf("Time elapsed: %ds\n ",timer(m));
     }
     int i,j;
+    printf("  ");
     for(j=1; j<= m.columns ; j++)
         {
-            printf("  %d", j);
+            //printf("_%c[4m%d%c[0m", 27, j, 27);
+            printf(" %d", j);
         }
     printf("\n");
-    printf(" \n");
     for(i = 1; i<= m.rows ; i++)
     {   
         printf("%d ", i);
         for(j=1; j<= m.columns ; j++)
         {   
-            if((grid[i][j] == COVERED_TILE) || (grid[i][j] == MINE_TILE) || (grid[i][j] == ARMED_TILE) || (grid[i][j] == BORDER_TILE) || (grid[i][j] == EMPTY_TILE))
-            {
-                printf("| %c", grid[i][j]);
-            }
+            //if((grid[i][j] == COVERED_TILE) || (grid[i][j] == MINE_TILE) || (grid[i][j] == ARMED_TILE) || (grid[i][j] == BORDER_TILE) || (grid[i][j] == EMPTY_TILE))
+            //{   
+
+                //printf("| %c", grid[i][j]);
+                //printf("%c[4m%c%c[0m", 27, grid[i][j], 27);
+                //printf("%c", grid[i][j]);
+                printf("|");
+                switch(grid[i][j]) 
+                {
+                    case COVERED_TILE: printf(COLOR_COVERED_TILE "%c", COVERED_TILE COLOR_RESET); break;
+                    case MINE_TILE: printf("a ist zwei\n"); break;
+                    case 3: printf("a ist drei\n"); break;
+                    default: printf("a ist irgendwas\n"); break;
+                }
+                
+            /*}
             else
             {
-                printf("| %d", grid[i][j]);
-            }
+                //printf("|%c[4m%d%c[0m", 27, grid[i][j], 27);
+                printf("|%d", grid[i][j]);
+            }*/
             
         }
         printf("|\n");

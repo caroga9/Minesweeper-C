@@ -28,12 +28,21 @@ typedef struct Minesweeper{
 
 
 
-#define COVERED_TILE 64
-#define EMPTY_TILE 143
+#define COVERED_TILE 32
+#define EMPTY_TILE 32
 #define MINE_TILE 42
 #define ARMED_TILE 65
 #define BORDER_TILE 149
 #define WINNER_TILE 128
+
+#define COLOR_COVERED_TILE  "\x1b[47m"
+#define COLOR_PURPLE     "\x1b[31m"
+#define COLOR_GREEN   "\x1b[32m"
+#define COLOR_YELLOW  "\x1b[33m"
+#define COLOR_BLUE    "\x1b[34m"
+#define COLOR_MAGENTA "\x1b[35m"
+#define COLOR_CYAN    "\x1b[36m"
+#define COLOR_RESET   "\x1b[0m"
 
 void initialize_field(Minesweeper m);
 void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column);
