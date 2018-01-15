@@ -8,18 +8,25 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
+int test(int *a, int *b)
+{
+  *a = 3;
+  *b = 4;
 
+}
 int main (int argc, char const *argv[]) {
 
-  int x = 3;
-  printf(ANSI_COLOR_PURPLE);
-  printf("This text is PURPLE! %d", x);
-  printf(ANSI_COLOR_RESET "\n");
+  int a = 2;
+  int b = 2;
   printf(ANSI_COLOR_GREEN   "This text is GREEN!"   ANSI_COLOR_RESET "\n");
   printf(ANSI_COLOR_YELLOW  "This text is YELLOW!"  ANSI_COLOR_RESET "\n");
   printf(ANSI_COLOR_BLUE    "This text is BLUE!"    ANSI_COLOR_RESET "\n");
   printf(ANSI_COLOR_MAGENTA "This text is MAGENTA!" ANSI_COLOR_RESET "\n");
   printf(ANSI_COLOR_CYAN    "This text is CYAN!"    ANSI_COLOR_RESET "\n");
-
+  test(&a, &b);
+  printf("a = %d, b=%d\n", a, b);
+  a = 5;
+  b = 5;
+  printf("a = %d, b=%d\n", a, b);
   return 0;
 }

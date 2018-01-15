@@ -4,8 +4,6 @@
 //      User Input in reveal tile und arm/disarm tile abfangen
 //      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen + Hilfstext schreiben)
 //      angezeigtes Feld verschönern
-//      Am Ende Gewinner/Verlierer Feld zeigen
-//      Farben
 //      ReadMe
 //      Kommentare
 //      Testfunktionen schreiben

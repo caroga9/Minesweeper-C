@@ -170,11 +170,20 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
         { 
             for(int b =(tile_column -1); b<= (tile_column +1); b++)
             {   
-                
+                int temp_a = a;
+                int temp_b = b;
+
+                if(m.boundary)
+                {
+                    create_boundary_condition(m, &a, &b);
+                }
                 if (m.mask[a][b] == ARMED_TILE)
                 {
                     count++;
+
                 }
+                a = temp_a;
+                b = temp_b;
 
             }
         }
@@ -193,24 +202,35 @@ void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
     { 
         for(int b =(tile_column -1); b<= (tile_column +1); b++)
         {  
-            if(m.mask[a][b] != COVERED_TILE)
+            int temp_a = a;
+            int temp_b = b;
+            if(m.boundary)
             {
+                create_boundary_condition(m, &a, &b);
+                
+            }
+
+            if(m.mask[a][b] != COVERED_TILE)
+            {   
+                a = temp_a;
+                b = temp_b;
                 continue;
             }
 
             //irrelevant for empty tiles but important for digging
             if(m.board[a][b] == MINE_TILE)
-            {
+            {   
                 lost_game(m, a, b);
             }
 
             m.mask[a][b] = m.board[a][b];
             //*m.ptr_number_tiles_revealed += 1; 
-
             if(m.board[a][b] == EMPTY_TILE)
             {
                reveal_adjacent_tiles(m, a, b);
             }
+            a = temp_a;
+            b = temp_b;
         }
     }
 

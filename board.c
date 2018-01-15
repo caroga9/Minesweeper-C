@@ -1,7 +1,44 @@
 #include"board.h"
 
-void create_boundary_coundition(Minesweeper m)
+void create_boundary_condition(Minesweeper m, int *a, int *b)
 {
+    if(*a == 0 && *b == 0)
+    {
+        *a = m.rows;
+        *b = m.columns;
+    }
+    if(*a == m.rows +1 && *b == m.columns +1)
+    {
+        *a = 1;
+        *b = 1;
+    }
+    if(*a == m.rows +1 && *b == 0)
+    {
+        *a = 1;
+        *b = m.columns;
+    }
+    if(*a == 0 && *b == m.columns +1)
+    {
+        *a = m.rows;
+        *b = 1;
+    }
+    if(*a == 0 && (0 < *b <= m.columns))
+    {
+        *a = m.rows;
+    }
+    if(*a == m.rows +1 && (0 < *b <= m.columns))
+    {
+        *a = 1;
+    }
+    if((0 < *a <= m.rows) && *b == 0)
+    {
+        *b = m.columns;
+    }
+    if((0 < *a <= m.rows) && *b == m.columns + 1)
+    {
+        *b = 1;
+    }
+/*
     //making sure corner tiles get correct neighbours
     m.board[0][0] = m.board[m.rows][m.columns];
     m.board[0][m.columns + 1] = m.board[m.rows][1];
@@ -26,17 +63,17 @@ void create_boundary_coundition(Minesweeper m)
         m.board[j][0] = m.board[j][m.columns];
         //last column
         m.board[j][m.columns + 1] = m.board[j][1];
-    }
+    }*/
 }
 
 void initialize_field(Minesweeper m)
 {   
 
     create_mines(m);
-    if(m.boundary)
+    /*if(m.boundary)
     {
         create_boundary_coundition(m);
-    }
+    }*/
     number_fields(m);
     create_mask(m);
     
@@ -95,12 +132,20 @@ void number_fields(Minesweeper m)
                 for(int a = (i-1); a <= (i+1); a++)
                 { 
                     for(int b =(j-1); b<= (j+1); b++)
-                    {
+                    {   
+                        int temp_a = a;
+                        int temp_b = b;
+                        if(m.boundary)
+                        {
+                            create_boundary_condition(m, &a, &b);
+                        }
                         if (m.board[a][b] == MINE_TILE)
                         {
                             count++;
-                        }
 
+                        }
+                        a = temp_a;
+                        b = temp_b;
                     }
                 }
                 m.board[i][j] = count;
@@ -158,26 +203,55 @@ int timer(Minesweeper m)
 
     return time_passed;
 }
+int get_int_len (int value)
+{
+
+    int len = 1;
+
+    while(value > 9) {
+
+        len++;
+
+        value/=10;
+
+    }
+
+    return len;
+
+}
 void print_grid(Minesweeper m, int** grid, bool **first_round)
 {   
 
-    printf("Number of mines: %d\nTiles marked as armed: %d\n", m.mines, *m.ptr_number_tiles_armed );
+    printf("Number of mines: %d\nTiles marked as armed: %d\n\n", m.mines, *m.ptr_number_tiles_armed );
     //printf("Number tiles revealed: %d", *m.ptr_number_tiles_revealed);
     if(!**first_round)
     {
-        printf("Time elapsed: %ds\n ",timer(m));
+        printf("Time elapsed: %ds\n\n",timer(m));
     }
     int i,j;
-    printf(" ");
+    for(int x = 0; x< get_int_len(m.columns); x++)
+    {
+        printf(" ");
+    }
     for(j=1; j<= m.columns ; j++)
         {
             //printf("_%c[4m%d%c[0m", 27, j, 27);
+            for (int padding = 0; padding + get_int_len(j) < get_int_len(m.columns); padding++)
+            {
+                printf(" ");
+            }
             printf(" %d", j);
         }
     printf("\n");
     for(i = 1; i<= m.rows ; i++)
     {   
-        printf("%d ", i);
+        for (int padding = 0; padding + get_int_len(i) < get_int_len(m.rows); padding++) 
+        {
+
+            printf(" ");
+
+        }
+        printf("%d", i);
         for(j=1; j<= m.columns ; j++)
         {   
             //if((grid[i][j] == COVERED_TILE) || (grid[i][j] == MINE_TILE) || (grid[i][j] == ARMED_TILE) || (grid[i][j] == BORDER_TILE) || (grid[i][j] == EMPTY_TILE))
@@ -187,6 +261,7 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
                 //printf("%c[4m%c%c[0m", 27, grid[i][j], 27);
                 //printf("%c", grid[i][j]);
                 printf("|");
+                
                 switch(grid[i][j]) 
                 {
                     case COVERED_TILE: printf(COLOR_COVERED_TILE); break;
@@ -202,6 +277,11 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
                     case 8: printf(COLOR_8); break;
 
                 }
+                for(int x = 1; x< get_int_len(m.columns); x++)
+                {
+                    printf(" ");
+                }
+
                 if(grid[i][j] <= 8)
                 {
                     printf("%d", grid[i][j]);
@@ -227,14 +307,25 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
 void print_final_mask(Minesweeper m, int **grid, bool won_game, int loser_row, int loser_column)
 {
     int i,j;
-    printf(" ");
+    printf("   ");
     for(j=1; j<= m.columns ; j++)
+    {
+        for (int padding = 0; padding + get_int_len(j) < get_int_len(m.columns); padding++)
         {
-            printf(" %d", j);
+            printf(" ");
         }
+        
+        printf(" %d", j);
+    }
     printf("\n");
     for(i = 1; i<= m.rows ; i++)
     {   
+        for(int padding = 0; padding + get_int_len(i) < get_int_len(m.rows); padding++) 
+        {
+
+            printf(" ");
+
+        }
         printf("%d ", i);
         for(j=1; j<= m.columns ; j++)
         {       
@@ -257,8 +348,13 @@ void print_final_mask(Minesweeper m, int **grid, bool won_game, int loser_row, i
                     case 8: printf(COLOR_8); break;
 
                 }
+
                 if(grid[i][j] <= 8)
                 {   
+                    for(int x = 1; x< get_int_len(m.columns); x++)
+                    {
+                        printf(" ");
+                    }
                     printf("%d", grid[i][j]);
                 }
                 else
@@ -276,6 +372,10 @@ void print_final_mask(Minesweeper m, int **grid, bool won_game, int loser_row, i
                         {
                             printf(COLOR_WON_MINE);
                         }
+                    }
+                     for(int x = 1; x< get_int_len(m.columns); x++)
+                    {
+                        printf(" ");
                     }
                     printf(" ");
                 }
