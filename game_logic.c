@@ -240,13 +240,26 @@ void count_revealed_tiles(Minesweeper m, int tile_row, int tile_column)
     }
 
 }
+
+
+
+void won_game(Minesweeper m)
+{   
+    //Feld nochmal printen mit winner_tile und Farben
+    system("clear"); // in anderem Betriebssystem anpassen --> readme
+    print_won();
+    printf("\n");
+    print_final_mask(m, m.board, true, 0, 0 );
+    game_over(m);
+}
+
 void lost_game(Minesweeper m,int loser_row, int loser_column)
 {   
     // Feld nochmal printen mit loser_tile und Farben
     system("clear"); // in anderem Betriebssystem anpassen --> readme
-
     print_lost();
-    
+    printf("\n");
+    print_final_mask(m, m.mask, false, loser_row, loser_column);
     game_over(m);
 }
 
@@ -323,17 +336,6 @@ void print_inGame_help()
    
 }
 
-
-
-
-void won_game(Minesweeper m)
-{   
-    //Feld nochmal printen mit winner_tile und Farben
-    system("clear"); // in anderem Betriebssystem anpassen --> readme
-
-    print_won();
-    game_over(m);
-}
 
 void game_over(Minesweeper m)
 {

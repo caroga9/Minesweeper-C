@@ -168,7 +168,7 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
         printf("Time elapsed: %ds\n ",timer(m));
     }
     int i,j;
-    printf("  ");
+    printf(" ");
     for(j=1; j<= m.columns ; j++)
         {
             //printf("_%c[4m%d%c[0m", 27, j, 27);
@@ -189,12 +189,28 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
                 printf("|");
                 switch(grid[i][j]) 
                 {
-                    case COVERED_TILE: printf(COLOR_COVERED_TILE "%c", COVERED_TILE COLOR_RESET); break;
-                    case MINE_TILE: printf("a ist zwei\n"); break;
-                    case 3: printf("a ist drei\n"); break;
-                    default: printf("a ist irgendwas\n"); break;
+                    case COVERED_TILE: printf(COLOR_COVERED_TILE); break;
+                    case MINE_TILE: printf(COLOR_MINE_TILE); break;
+                    case ARMED_TILE: printf(COLOR_ARMED_TILE); break;
+                    case 1: printf(COLOR_1); break;
+                    case 2: printf(COLOR_2); break;
+                    case 3: printf(COLOR_3); break;
+                    case 4: printf(COLOR_4); break;
+                    case 5: printf(COLOR_5); break;
+                    case 6: printf(COLOR_6); break;
+                    case 7: printf(COLOR_7); break;
+                    case 8: printf(COLOR_8); break;
+
                 }
-                
+                if(grid[i][j] <= 8)
+                {
+                    printf("%d", grid[i][j]);
+                }
+                else
+                {
+                    printf(" ");
+                }
+                printf(COLOR_RESET);
             /*}
             else
             {
@@ -206,4 +222,72 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
         printf("|\n");
     }
     
+}
+
+void print_final_mask(Minesweeper m, int **grid, bool won_game, int loser_row, int loser_column)
+{
+    int i,j;
+    printf(" ");
+    for(j=1; j<= m.columns ; j++)
+        {
+            printf(" %d", j);
+        }
+    printf("\n");
+    for(i = 1; i<= m.rows ; i++)
+    {   
+        printf("%d ", i);
+        for(j=1; j<= m.columns ; j++)
+        {       
+            if(m.board[i][j] == MINE_TILE)
+            {
+                grid[i][j] = MINE_TILE;
+            }
+                printf("|");
+                switch(grid[i][j]) 
+                {
+                    case MINE_TILE: printf(COLOR_MINE_TILE); break;
+                    case COVERED_TILE: printf(COLOR_COVERED_TILE); break;
+                    case 1: printf(COLOR_1); break;
+                    case 2: printf(COLOR_2); break;
+                    case 3: printf(COLOR_3); break;
+                    case 4: printf(COLOR_4); break;
+                    case 5: printf(COLOR_5); break;
+                    case 6: printf(COLOR_6); break;
+                    case 7: printf(COLOR_7); break;
+                    case 8: printf(COLOR_8); break;
+
+                }
+                if(grid[i][j] <= 8)
+                {   
+                    printf("%d", grid[i][j]);
+                }
+                else
+                {   
+                    if(!won_game)
+                    {
+                        if(i == loser_row && j == loser_column)
+                        {
+                            printf(COLOR_LOSER_TILE);
+                        }
+                    }
+                    if(won_game)
+                    {
+                        if(grid[i][j] == MINE_TILE)
+                        {
+                            printf(COLOR_WON_MINE);
+                        }
+                    }
+                    printf(" ");
+                }
+                printf(COLOR_RESET);
+            /*}
+            else
+            {
+                //printf("|%c[4m%d%c[0m", 27, grid[i][j], 27);
+                printf("|%d", grid[i][j]);
+            }*/
+            
+        }
+        printf("|\n");
+    }
 }
