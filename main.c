@@ -4,7 +4,8 @@
 //      User Input in reveal tile und arm/disarm tile abfangen
 //      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen)
 //      Hilfstexte schreiben
-//      angezeigtes Feld verschönern
+//      (angezeigtes Feld verschönern)
+//      evtl. beide print_grid Funktionen zusammenführen
 //      ReadMe
 //      Kommentare
 //      Testfunktionen schreiben

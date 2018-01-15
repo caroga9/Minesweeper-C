@@ -291,6 +291,7 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
                     printf(" ");
                 }
                 printf(COLOR_RESET);
+
             /*}
             else
             {
@@ -299,9 +300,23 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
             }*/
             
         }
+        
         printf("|\n");
     }
-    
+    for(int x = 0; x< get_int_len(m.columns); x++)
+    {
+        printf(" ");
+    }
+    for(j=1; j<= m.columns ; j++)
+        {
+            //printf("_%c[4m%d%c[0m", 27, j, 27);
+            for (int padding = 0; padding + get_int_len(j) < get_int_len(m.columns); padding++)
+            {
+                printf(" ");
+            }
+            printf(" %d", j);
+        }
+    printf("\n");
 }
 
 void print_final_mask(Minesweeper m, int **grid, bool won_game, int loser_row, int loser_column)
@@ -390,4 +405,19 @@ void print_final_mask(Minesweeper m, int **grid, bool won_game, int loser_row, i
         }
         printf("|\n");
     }
+    printf(" ");
+    for(int x = 0; x< get_int_len(m.columns); x++)
+    {
+        printf(" ");
+    }
+    for(j=1; j<= m.columns ; j++)
+        {
+            //printf("_%c[4m%d%c[0m", 27, j, 27);
+            for (int padding = 0; padding + get_int_len(j) < get_int_len(m.columns); padding++)
+            {
+                printf(" ");
+            }
+            printf(" %d", j);
+        }
+    printf("\n");
 }
