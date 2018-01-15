@@ -265,7 +265,6 @@ void count_revealed_tiles(Minesweeper m, int tile_row, int tile_column)
 
 void won_game(Minesweeper m)
 {   
-    //Feld nochmal printen mit winner_tile und Farben
     system("clear"); // in anderem Betriebssystem anpassen --> readme
     print_won();
     printf("\n");
@@ -275,7 +274,6 @@ void won_game(Minesweeper m)
 
 void lost_game(Minesweeper m,int loser_row, int loser_column)
 {   
-    // Feld nochmal printen mit loser_tile und Farben
     system("clear"); // in anderem Betriebssystem anpassen --> readme
     print_lost();
     printf("\n");
