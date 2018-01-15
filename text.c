@@ -35,3 +35,17 @@ void print_won()
     printf("   #    #    # #    #    ##  ## #    # #   ## \n");
     printf("   #     ####   ####     #    #  ####  #    # \n");
 }
+
+void print_inGame_help()
+{
+    printf("Hilfstext\n");
+
+    printf("\n");
+   
+}
+
+void print_help()
+{
+    printf("Hilfstext\n");
+
+}

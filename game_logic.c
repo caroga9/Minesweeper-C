@@ -348,14 +348,6 @@ void disarm_tile(Minesweeper m)
     }
 }
 
-void print_inGame_help()
-{
-    printf("Hilfstext\n");
-
-    printf("\n");
-   
-}
-
 
 void game_over(Minesweeper m)
 {

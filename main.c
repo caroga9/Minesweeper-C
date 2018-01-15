@@ -2,17 +2,12 @@
 
 //TODO: 
 //      User Input in reveal tile und arm/disarm tile abfangen
-//      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen + Hilfstext schreiben)
+//      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen)
+//      Hilfstexte schreiben
 //      angezeigtes Feld verschönern
 //      ReadMe
 //      Kommentare
 //      Testfunktionen schreiben
-
-
-
-//Jan fragen:   
-//              Farben
-//                            
 
 
 int main(int argc, char *argv[])
@@ -21,7 +16,23 @@ int main(int argc, char *argv[])
     Minesweeper minesweeper; // setze minesweeper als struct Typ Minesweeper fest
     
     // argv Eingabe überprüfen
-    if(argc < 3)
+    if(argc == 2)
+    {
+        if(*argv[1] == 'h')
+        {
+            print_help();
+            exit(0);
+        }
+        else
+        {
+            minesweeper.rows = 8;
+            minesweeper.columns = 8;
+            minesweeper.mines = 7;
+            minesweeper.boundary = false;
+        }
+    }
+
+    if(argc == 3 || argc == 1)
     {
         minesweeper.rows = 8;
         minesweeper.columns = 8;

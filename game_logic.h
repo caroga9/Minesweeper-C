@@ -60,7 +60,6 @@ void lost_game(Minesweeper m, int loser_row, int loser_column);
 void won_game(Minesweeper m);
 void arm_tile(Minesweeper m);
 void disarm_tile(Minesweeper m);
-void print_inGame_help();
 void game_over(Minesweeper m);
 //void flood_fill(Minesweeper m, int tile_row, int tile_column);
 void count_revealed_tiles(Minesweeper m, int tile_row, int tile_column);
