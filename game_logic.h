@@ -63,3 +63,4 @@ void disarm_tile(Minesweeper m);
 void game_over(Minesweeper m);
 //void flood_fill(Minesweeper m, int tile_row, int tile_column);
 void count_revealed_tiles(Minesweeper m, int tile_row, int tile_column);
+void check_input_tile(Minesweeper m, int *tile_row, int *tile_column);

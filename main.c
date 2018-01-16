@@ -45,6 +45,16 @@ int main(int argc, char *argv[])
     }
     if(argc == 4)
     {
+        if(atoi(argv[1]) > 99 || atoi(argv[2]) > 99)
+        {
+            printf("This field is too large (under 100 is fine)");
+            exit(0);
+        }
+        if(atoi(argv[3]) >= atoi(argv[1])*atoi(argv[2]))
+        {
+            printf("You cannot have a field full of mines.");
+            exit(0);
+        }
         minesweeper.rows = atoi(argv[1]);
         minesweeper.columns = atoi(argv[2]);
         minesweeper.mines = atoi(argv[3]);
@@ -52,6 +62,16 @@ int main(int argc, char *argv[])
     }
     if(argc == 5)
     {
+        if(atoi(argv[1]) > 99 || atoi(argv[2]) > 99)
+        {
+            printf("This field is too large (under 100 is fine)");
+            exit(0);
+        }
+        if(atoi(argv[3]) >= atoi(argv[1])*atoi(argv[2]))
+        {
+            printf("You cannot have a field full of mines.");
+            exit(0);
+        }
         minesweeper.rows = atoi(argv[1]);
         minesweeper.columns = atoi(argv[2]);
         minesweeper.mines = atoi(argv[3]);

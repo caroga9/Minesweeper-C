@@ -19,12 +19,22 @@ int test(int *a, int *b)
 
 }
 int main (void) {
-int a=2;
+	char input[100];
+	scanf("%s", input);
+	char *ptr;
+	char *ptr2;
+	int number;
+	int number2;
+	ptr = &input[0];
+	ptr2 = &input[3];
+	number = atoi(ptr);
+	number2 = atoi(ptr2);
+	printf("%d\n", number);
+	printf("%d\n", number2);
+	if(number <= 0)
+	{
+		printf("This is not valid.");
 
-switch(a) {
-	case 1: printf("a ist eins\n"); break;
-	case 2: printf("a ist zwei\n"); break;
-	case 3: printf("a ist drei\n"); break;
-	default: printf("a ist irgendwas\n"); continu;
-}
+	}
+
 }

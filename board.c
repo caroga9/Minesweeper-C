@@ -188,11 +188,10 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
 {   
 
     printf("Number of mines: %d\nTiles marked as armed: %d\n\n", m.mines, *m.ptr_number_tiles_armed );
-    //printf("Number tiles revealed: %d", *m.ptr_number_tiles_revealed);
-    if(!**first_round)
+   /* if(!**first_round)
     {
         printf("Time elapsed: %ds\n\n",timer(m));
-    }
+    }*/
     int i,j;
     for(int x = 0; x< get_int_len(m.columns); x++)
     {
@@ -218,13 +217,7 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
         }
         printf("%d", i);
         for(j=1; j<= m.columns ; j++)
-        {   
-            //if((grid[i][j] == COVERED_TILE) || (grid[i][j] == MINE_TILE) || (grid[i][j] == ARMED_TILE) || (grid[i][j] == BORDER_TILE) || (grid[i][j] == EMPTY_TILE))
-            //{   
-
-                //printf("| %c", grid[i][j]);
-                //printf("%c[4m%c%c[0m", 27, grid[i][j], 27);
-                //printf("%c", grid[i][j]);
+        {
                 printf("|");
                 
                 switch(grid[i][j]) 
@@ -256,13 +249,6 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
                     printf(" ");
                 }
                 printf(COLOR_RESET);
-
-            /*}
-            else
-            {
-                //printf("|%c[4m%d%c[0m", 27, grid[i][j], 27);
-                printf("|%d", grid[i][j]);
-            }*/
             
         }
         
@@ -274,7 +260,6 @@ void print_grid(Minesweeper m, int** grid, bool **first_round)
     }
     for(j=1; j<= m.columns ; j++)
         {
-            //printf("_%c[4m%d%c[0m", 27, j, 27);
             for (int padding = 0; padding + get_int_len(j) < get_int_len(m.columns); padding++)
             {
                 printf(" ");
