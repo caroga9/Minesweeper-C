@@ -21,7 +21,6 @@ void get_user_action(Minesweeper m, bool *first_round)
         if(action == 'r')
         {
             reveal_tile(m, &first_round);
-            
         }
         if(action == 'a')
         {
