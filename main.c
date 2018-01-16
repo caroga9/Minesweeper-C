@@ -1,14 +1,17 @@
 #include"board.h"
 
 //TODO: 
-//      User Input in reveal tile und arm/disarm tile abfangen
-//      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen)
-//      Hilfstexte schreiben
-//      (angezeigtes Feld verschönern)
+//      Kommentare !!  (bevor ich es Sina zeige)
+//      momentan kann man nur mit Feldern kleiner 10 spielen
+//wie verhindere ich dass Buchstaben eingegeben werden die dann zu Zahlen konvertiert werden und zufällig im Feld liegen?
+//      User Input in reveal tile und arm/disarm tile abfangen !!
+//      bei user-actions aufpassen dass es nicht abstürzen kann !!
+//      Testfunktionen schreiben !!
+//      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen) !!
+//      Hilfstexte schreiben !
 //      evtl. beide print_grid Funktionen zusammenführen
 //      ReadMe
-//      Kommentare
-//      Testfunktionen schreiben
+//      (angezeigtes Feld verschönern)
 
 
 int main(int argc, char *argv[])
@@ -23,8 +26,7 @@ int main(int argc, char *argv[])
         {
             print_help();
             exit(0);
-        }
-        else
+        }       else
         {
             minesweeper.rows = 8;
             minesweeper.columns = 8;

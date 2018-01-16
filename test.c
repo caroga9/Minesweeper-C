@@ -1,5 +1,9 @@
-#include <stdio.h>
-
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<stdbool.h>
+#include <string.h>
+#include <unistd.h>
 #define ANSI_COLOR_PURPLE     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
@@ -14,19 +18,13 @@ int test(int *a, int *b)
   *b = 4;
 
 }
-int main (int argc, char const *argv[]) {
+int main (void) {
+int a=2;
 
-  int a = 2;
-  int b = 2;
-  printf(ANSI_COLOR_GREEN   "This text is GREEN!"   ANSI_COLOR_RESET "\n");
-  printf(ANSI_COLOR_YELLOW  "This text is YELLOW!"  ANSI_COLOR_RESET "\n");
-  printf(ANSI_COLOR_BLUE    "This text is BLUE!"    ANSI_COLOR_RESET "\n");
-  printf(ANSI_COLOR_MAGENTA "This text is MAGENTA!" ANSI_COLOR_RESET "\n");
-  printf(ANSI_COLOR_CYAN    "This text is CYAN!"    ANSI_COLOR_RESET "\n");
-  test(&a, &b);
-  printf("a = %d, b=%d\n", a, b);
-  a = 5;
-  b = 5;
-  printf("a = %d, b=%d\n", a, b);
-  return 0;
+switch(a) {
+	case 1: printf("a ist eins\n"); break;
+	case 2: printf("a ist zwei\n"); break;
+	case 3: printf("a ist drei\n"); break;
+	default: printf("a ist irgendwas\n"); continu;
+}
 }
