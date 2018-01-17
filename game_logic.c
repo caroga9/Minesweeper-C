@@ -15,9 +15,9 @@ void get_user_action(Minesweeper m)
     system("clear");
 
     //noch rausnehmen vor Abgabe
-    print_grid(m, m.board);
+    //print_grid(m, m.board);
 
-    print_grid(m, m.mask);
+    print_grid(m, m.mask, false, false, 0, 0);
     printf("\nWhat would you like to do?\n");
     do
     {
@@ -469,7 +469,7 @@ void won_game(Minesweeper m)
     printf("\n");
 
     //print the board one last time with all mines marked
-    print_final_mask(m, m.board, true, 0, 0);
+    print_grid(m, m.board, true, true, 0, 0);
     game_over(m);
 }
 
@@ -483,7 +483,7 @@ void lost_game(Minesweeper m, int loser_row, int loser_column)
 
     //print the board one last time with all mines marked
     //and an indicator of the tile that made the player lose
-    print_final_mask(m, m.mask, false, loser_row, loser_column);
+    print_grid(m, m.mask, true, false, loser_row, loser_column);
     game_over(m);
 }
 
