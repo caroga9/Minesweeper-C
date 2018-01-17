@@ -1,7 +1,147 @@
 #include "board.h"
 
+//call all functions neccessary to create the board and mask
+void initialize_field(Minesweeper m)
+{
+
+    create_mines(m);
+    number_fields(m);
+    create_mask(m);
+
+    printf("\n");
+}
+
+void create_mines(Minesweeper m)
+{
+    int position_row, position_column;
+
+    //needed for random function. uses computer system time
+    srand(time(NULL));
+
+    //find a position for every mine
+    for (int mine = 0; mine < m.mines; mine++)
+    {
+
+        //repeat search for position as long as its already occupied
+        do
+        {   
+            //get a random number between 1 and number of rows
+            position_row = rand() % ((m.rows + 1) - 1) + 1;
+            //same for columns
+            position_column = rand() % ((m.columns + 1) - 1) + 1;
+
+        } while (m.board[position_row][position_column] == MINE_TILE);
+
+        //place mine on respective position on the board
+        m.board[position_row][position_column] = MINE_TILE;
+    }
+}
+
+void create_mask(Minesweeper m)
+{
+    int i, j;
+
+    //loop through all tiles 
+    for (i = 1; i <= m.rows; i++)
+    {
+
+        for (j = 1; j <= m.columns; j++)
+        {   
+            //place a tile-cover on every position in the mask
+            m.mask[i][j] = COVERED_TILE;
+        }
+    }
+}
+
+//a function to place numbers of adjacent mines on every tile on the board
+void number_fields(Minesweeper m)
+{
+    int i, j;
+
+    //loop through all tiles
+    for (i = 1; i <= m.rows; i++)
+    {
+        for (j = 1; j <= m.columns; j++)
+        {
+            //only put numbers on empty fields
+            if (m.board[i][j] != MINE_TILE)
+            {
+
+                int count = 0;
+
+                //loop through all adjacent tiles
+                for (int a = (i - 1); a <= (i + 1); a++)
+                {   
+                    for (int b = (j - 1); b <= (j + 1); b++)
+                    {
+                        //this is only relevant if boundary conditions are active
+                        int temp_a = a;
+                        int temp_b = b;
+                        if (m.boundary)
+                        {
+                            create_boundary_condition(m, &a, &b);
+                        }
+
+                        //if an adjacent tile has a mine, increment the counter
+                        if (m.board[a][b] == MINE_TILE)
+                        {
+                            count++;
+                        }
+
+                        //boundary conditions will overwrite a and b 
+                        //and they need to be reset for the next iteration
+                        a = temp_a;
+                        b = temp_b;
+                    }
+                }
+
+                //place the number of adjacent mines on the field
+                m.board[i][j] = count;
+            }
+        }
+    }
+
+    // making sure border tiles that actually don't belong to the board don't get a 0
+    // (will be relevant later)
+
+    //loop through all columns in the first and last row
+    for (i = 0; i <= (m.rows + 1); i += (m.rows + 1))
+    {
+        for (j = 0; j <= (m.columns + 1); j++)
+        {
+            m.board[i][j] = BORDER_TILE;
+        }
+    }
+
+    //loop through all rows in the first and last column
+    for (j = 0; j <= (m.columns + 1); j += (m.columns + 1))
+    {
+        for (i = 0; i <= (m.rows + 1); i++)
+        {
+            m.board[i][j] = BORDER_TILE;
+        }
+    }
+
+    // turn all 0 tiles into actual empty tiles (for design purposes)
+    //loop through all tiles on the board
+    for (i = 1; i <= m.rows; i++)
+    {
+
+        for (j = 1; j <= m.columns; j++)
+        {
+            if (m.board[i][j] == 0)
+            {
+                m.board[i][j] = EMPTY_TILE;
+            }
+        }
+    }
+}
+
+//having periodic boundary conditions means that the left border touches the right border etc.
+//(see ReadMe)
 void create_boundary_condition(Minesweeper m, int *a, int *b)
 {
+    //corner tiles
     if (*a == 0 && *b == 0)
     {
         *a = m.rows;
@@ -22,141 +162,43 @@ void create_boundary_condition(Minesweeper m, int *a, int *b)
         *a = m.rows;
         *b = 1;
     }
+
+    //upper border
     if (*a == 0 && (0 < *b <= m.columns))
     {
         *a = m.rows;
     }
+    //lower border
     if (*a == m.rows + 1 && (0 < *b <= m.columns))
     {
         *a = 1;
     }
+    //left border
     if ((0 < *a <= m.rows) && *b == 0)
     {
         *b = m.columns;
     }
+    //right border
     if ((0 < *a <= m.rows) && *b == m.columns + 1)
     {
         *b = 1;
     }
 }
 
-void initialize_field(Minesweeper m)
-{
-
-    create_mines(m);
-    number_fields(m);
-    create_mask(m);
-
-    printf("\n");
-}
-
-void create_mask(Minesweeper m)
-{
-    int i, j;
-    for (i = 1; i <= m.rows; i++)
-    {
-
-        for (j = 1; j <= m.columns; j++)
-        {
-            m.mask[i][j] = COVERED_TILE;
-        }
-    }
-}
-
-void create_mines(Minesweeper m)
-{
-    int position_row, position_column;
-    srand(time(NULL));
-
-    for (int mine = 0; mine < m.mines; mine++)
-    {
-
-        do
-        {
-            position_row = rand() % ((m.rows + 1) - 1) + 1;
-            position_column = rand() % ((m.columns + 1) - 1) + 1;
-
-        } while (m.board[position_row][position_column] == MINE_TILE);
-
-        m.board[position_row][position_column] = MINE_TILE;
-    }
-}
-
-// könnte effizienter gemacht werden mit Jans Art
-void number_fields(Minesweeper m)
-{
-    int i, j;
-    for (i = 1; i <= m.rows; i++)
-    {
-        for (j = 1; j <= m.columns; j++)
-        {
-            if (m.board[i][j] != MINE_TILE)
-            {
-
-                int count = 0;
-                for (int a = (i - 1); a <= (i + 1); a++)
-                {
-                    for (int b = (j - 1); b <= (j + 1); b++)
-                    {
-                        int temp_a = a;
-                        int temp_b = b;
-                        if (m.boundary)
-                        {
-                            create_boundary_condition(m, &a, &b);
-                        }
-                        if (m.board[a][b] == MINE_TILE)
-                        {
-                            count++;
-                        }
-                        a = temp_a;
-                        b = temp_b;
-                    }
-                }
-                m.board[i][j] = count;
-            }
-        }
-    }
-
-    // making sure border tiles that actually don't belong to the board don't get a 0
-    for (i = 0; i <= (m.rows + 1); i += (m.rows + 1))
-    {
-        for (j = 0; j <= (m.columns + 1); j++)
-        {
-            m.board[i][j] = BORDER_TILE;
-        }
-    }
-
-    for (j = 0; j <= (m.columns + 1); j += (m.columns + 1))
-    {
-        for (i = 0; i <= (m.rows + 1); i++)
-        {
-            m.board[i][j] = BORDER_TILE;
-        }
-    }
-
-    // turning all 0 tiles into actual empty tiles
-    for (i = 1; i <= m.rows; i++)
-    {
-
-        for (j = 1; j <= m.columns; j++)
-        {
-            if (m.board[i][j] == 0)
-            {
-                m.board[i][j] = EMPTY_TILE;
-            }
-        }
-    }
-}
 
 int timer(Minesweeper m)
-{
+{   
+    //call time() function to get current time
     time_t now = time(0);
 
+    //calculate time passend since first call (stored as start time)
     int time_passed;
     time_passed = now - *m.ptr_start_time;
 
     return time_passed;
 }
+
+//a function to calculate the number of digits of a number
 int get_int_len(int value)
 {
 
@@ -172,6 +214,8 @@ int get_int_len(int value)
 
     return len;
 }
+
+
 void print_grid(Minesweeper m, int **grid)
 {
 
@@ -268,7 +312,7 @@ void print_grid(Minesweeper m, int **grid)
     }
     for (j = 1; j <= m.columns; j++)
     {
-        //printf("_%c[4m%d%c[0m", 27, j, 27);
+
         for (padding = 0; padding + get_int_len(j) < get_int_len(m.columns); padding++)
         {
             printf(" ");
