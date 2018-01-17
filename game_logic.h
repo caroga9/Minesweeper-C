@@ -15,8 +15,6 @@ typedef struct Minesweeper
     int **mask;
     int **board;
 
-    //int number_tiles_revealed;
-    //int *ptr_number_tiles_revealed;
     bool boundary;
 
     bool first_round;
@@ -63,6 +61,5 @@ void won_game(Minesweeper m);
 void arm_tile(Minesweeper m);
 void disarm_tile(Minesweeper m);
 void game_over(Minesweeper m);
-//void flood_fill(Minesweeper m, int tile_row, int tile_column);
 void count_revealed_tiles(Minesweeper m, int tile_row, int tile_column);
 void check_input_tile(Minesweeper m, int *tile_row, int *tile_column);

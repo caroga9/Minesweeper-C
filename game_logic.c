@@ -13,6 +13,7 @@ void get_user_action(Minesweeper m)
 
     //clear the terminal to create illusion of a static field (might not work in other operating systems than ubuntu)
     system("clear");
+    //system("cls"); //windows
 
     //noch rausnehmen vor Abgabe
     //print_grid(m, m.board);
@@ -245,7 +246,7 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
         }
         else
         {
-            printf("There aren't enough surrounding armed tiles to dig");
+            printf("There aren't enough surrounding armed tiles to dig\n");
             get_user_action(m);
         }
     }

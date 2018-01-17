@@ -4,7 +4,6 @@
 //      Testfunktionen schreiben !!
 //      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen) !!
 //      Hilfstexte schreiben !
-//      evtl. beide print_grid Funktionen zusammenführen
 
 
 int main(int argc, char *argv[])
