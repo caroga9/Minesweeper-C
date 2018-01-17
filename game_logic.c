@@ -61,7 +61,7 @@ void reveal_tile(Minesweeper m, bool **first_round)
 {   
     int tile_row, tile_column;
     do
-    {   // wie fängt man Falschinput ab in diesem Fall? zb ein Buchstabe
+    { 
         printf("Which tile do you want to reveal?\n");
         check_input_tile(m, &tile_row, &tile_column);
         
@@ -77,6 +77,7 @@ void reveal_tile(Minesweeper m, bool **first_round)
         while(m.board[tile_row][tile_column] == MINE_TILE)
         {   
             int i,j;
+            //reset field to all zeroes (deletes mines)
             for(i = 1; i <= m.rows; i++)
             {
                 for(j = 1; j <= m.columns; j++)
@@ -92,10 +93,11 @@ void reveal_tile(Minesweeper m, bool **first_round)
 
         time_t start_time = time(0);
         *m.ptr_start_time = start_time;
-        
+
         **first_round = false;
 
     }
+
     check_revealed_tile(m, tile_row, tile_column);
 }
 
@@ -284,20 +286,13 @@ void arm_tile(Minesweeper m)
     {   
         printf("Which tile do you want to set as armed?\n");
         check_input_tile(m, &tile_row, &tile_column);
-        
-        if((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0))
-        {
-            printf("This is not on the board.\n");
-        }
+
         if(m.mask[tile_row][tile_column] == m.board[tile_row][tile_column])
         {
             printf("You cannot arm an open tile.\n");
         }
-        else
-        {
-            break;
-        }
-    }while(true);
+
+    }while(m.mask[tile_row][tile_column] == m.board[tile_row][tile_column]);
 
     m.mask[tile_row][tile_column] = ARMED_TILE;
 
@@ -321,15 +316,12 @@ void disarm_tile(Minesweeper m)
         {   
             printf("Which tile do you want to disarm?\n");
             check_input_tile(m, &tile_row, &tile_column);
-            if((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0))
-            {
-                printf("This is not on the board.\n");
-            }
 
             if(m.mask[tile_row][tile_column] != ARMED_TILE)
             {
                 printf("This tile is not armed.\n");
             }
+            
         }while(((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0)) || (m.mask[tile_row][tile_column] != ARMED_TILE));
 
         m.mask[tile_row][tile_column] = COVERED_TILE;
@@ -381,16 +373,6 @@ void game_over(Minesweeper m)
 
 void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
 {   
-    char *ptr;
-    char *ptr1;
-    char *ptr2;
-    char *ptr3;
-    char *ptr4;
-
-    int number = 0;
-    int number1 = 0;
-    int number2 = 0;
-    int number3 = 0;
 
     while(true)
     {
@@ -402,22 +384,12 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
             continue;
         }
 
-        int count = 0;
-        for(int i = 0; i < strlen(input); i++)
-        {
-            if(input[i] == ',')
-            {
-                count++;
-            }
-        }
-        if(count == 0)
-        {
-            printf("Please use a comma to sepereate the number of row and column.\n");
-            continue;
-        }
+        char *ptr;
+        char *ptr2;
 
-        count = 0;
+        int count = 0;
         int position = 0;
+
         for(int i = 0; i < strlen(input); i++)
         {
             if(input[i] == ',')
@@ -431,6 +403,45 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
             printf("Please use one comma to sepereate the number of row and column.\n");
             continue;
         }
+        ptr = &input[0];
+        ptr2 = &input[position + 1];
+
+        *tile_row = atoi(ptr);
+        *tile_column = atoi(ptr2);
+
+        if(*tile_row <= 0 || *tile_column <= 0)
+        {
+            printf("This is not valid.\n");
+            continue;
+        }
+
+        if((m.rows < *tile_row ) || (0 >= *tile_row) || (m.columns < *tile_column) || (*tile_column <= 0))
+        {
+            printf("This is not on the board.\n");
+            continue;
+        }
+
+        else
+        {   
+            break;
+        }
+
+
+        
+        //for whatever reason suddenly not needed
+        /*
+        int count = 0;
+        for(int i = 0; i < strlen(input); i++)
+        {
+            if(input[i] == ',')
+            {
+                count++;
+            }
+        }
+        
+
+        
+        
         if(position == 1)
         {
             ptr = &input[0];
@@ -505,6 +516,6 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
             break;
             
         }
-
+        */
     }
 }

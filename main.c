@@ -2,10 +2,7 @@
 
 //TODO: 
 //      Kommentare !!  (bevor ich es Sina zeige)
-//      momentan kann man nur mit Feldern kleiner 10 spielen
-//wie verhindere ich dass Buchstaben eingegeben werden die dann zu Zahlen konvertiert werden und zufällig im Feld liegen?
-//      User Input in reveal tile und arm/disarm tile abfangen !!
-//      bei user-actions aufpassen dass es nicht abstürzen kann !!
+//      Test.c nochmal anschauen und game_logic.c anpassen. Wieso geht das auf einmal??
 //      Testfunktionen schreiben !!
 //      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen) !!
 //      Hilfstexte schreiben !
