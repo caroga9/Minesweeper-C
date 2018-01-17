@@ -301,7 +301,8 @@ void print_grid(Minesweeper m, int **grid)
             printf(COLOR_RESET);
         }
 
-        printf("|\n");
+        printf("|%d", i);
+        printf("\n");
     }
 
     for (padding = 0; padding < get_int_len(m.rows); padding++)
@@ -419,7 +420,9 @@ void print_final_mask(Minesweeper m, int **grid, bool won_game, int loser_row, i
             }
             printf(COLOR_RESET);
         }
-        printf("|\n");
+
+        printf("|%d", i);
+        printf("\n");
     }
     for (padding = 0; padding < get_int_len(m.rows); padding++)
     {

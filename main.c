@@ -5,8 +5,7 @@
 //      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen) !!
 //      Hilfstexte schreiben !
 //      evtl. beide print_grid Funktionen zusammenführen
-//      ReadMe
-//      (angezeigtes Feld verschönern)
+
 
 int main(int argc, char *argv[])
 {

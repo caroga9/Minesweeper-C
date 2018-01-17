@@ -35,6 +35,10 @@ If you reveal a tile that doesn't have any mines surrounding it (an empty tile),
 You also have the option of "digging" underneath an already revealed tile, meaning you can re-reveal an open tile and thereby reveal all adjacent tiles. This option is only available if the number of marked-as-armed tiles adjacent to the chosen tile is at least as high as the number on the tile. The marked tiles are safe, which means that you are safe as long as you've marked the right tiles. If you've made a mistake, you'll lose.
 The second you open the last safe tile on the board, you win the game.
 
+If you've lost, the board will be printed another time in the state it was when the game ended but with all mines highlighted in one shade of red, and the mine that made you lose in another.
+
+If you've won, the board will be printed with mines highlighted in green color.
+
 ### 3.1 Periodic boundary conditions
 
 Having periodic boundary conditions in this game means that all tiles have the same number of adjacent tiles. Therefore borders don't actually exist, a border tile connects to another border tile on the other side of the board.
