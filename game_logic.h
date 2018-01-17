@@ -1,35 +1,34 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
 
-#include"text.h"
+#include "text.h"
 
-typedef struct Minesweeper{
-        unsigned short int rows;
-        unsigned short int columns;
-        unsigned short int mines;
-        int **mask;
-        int **board;
+typedef struct Minesweeper
+{
+    unsigned short int rows;
+    unsigned short int columns;
+    unsigned short int mines;
+    int **mask;
+    int **board;
 
-        //int number_tiles_revealed;
-        //int *ptr_number_tiles_revealed;
-        bool boundary;
+    //int number_tiles_revealed;
+    //int *ptr_number_tiles_revealed;
+    bool boundary;
 
-        bool first_round;
-        bool *ptr_first_round;
-        
-        int number_tiles_armed;
-        int *ptr_number_tiles_armed;
+    bool first_round;
+    bool *ptr_first_round;
 
-        long start_time;
-        long *ptr_start_time;
+    int number_tiles_armed;
+    int *ptr_number_tiles_armed;
 
-    } Minesweeper;
+    long start_time;
+    long *ptr_start_time;
 
-
+} Minesweeper;
 
 #define COVERED_TILE 64
 #define EMPTY_TILE 32
@@ -38,20 +37,20 @@ typedef struct Minesweeper{
 #define BORDER_TILE 149
 #define WINNER_TILE 128
 
-#define COLOR_COVERED_TILE  "\x1b[47m"
+#define COLOR_COVERED_TILE "\x1b[47m"
 #define COLOR_ARMED_TILE "\x1b[43m"
 #define COLOR_LOSER_TILE "\x1b[101m"
 #define COLOR_WON_MINE "\x1b[42m"
 #define COLOR_MINE_TILE "\x1b[41m"
-#define COLOR_8  "\x1b[91m"
-#define COLOR_7  "\x1b[35m"
-#define COLOR_6  "\x1b[31m"
-#define COLOR_5    "\x1b[32m"
+#define COLOR_8 "\x1b[91m"
+#define COLOR_7 "\x1b[35m"
+#define COLOR_6 "\x1b[31m"
+#define COLOR_5 "\x1b[32m"
 #define COLOR_4 "\x1b[33m"
-#define COLOR_3   "\x1b[94m"
-#define COLOR_2   "\x1b[92m"
-#define COLOR_1  "\x1b[96m"
-#define COLOR_RESET   "\x1b[0m"
+#define COLOR_3 "\x1b[94m"
+#define COLOR_2 "\x1b[92m"
+#define COLOR_1 "\x1b[96m"
+#define COLOR_RESET "\x1b[0m"
 
 void initialize_field(Minesweeper m);
 void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column);

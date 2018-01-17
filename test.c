@@ -1,32 +1,32 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
-#define ANSI_COLOR_PURPLE     "\x1b[31m"
-#define ANSI_COLOR_GREEN   "\x1b[32m"
-#define ANSI_COLOR_YELLOW  "\x1b[33m"
-#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_PURPLE "\x1b[31m"
+#define ANSI_COLOR_GREEN "\x1b[32m"
+#define ANSI_COLOR_YELLOW "\x1b[33m"
+#define ANSI_COLOR_BLUE "\x1b[34m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
-#define ANSI_COLOR_CYAN    "\x1b[36m"
-#define ANSI_COLOR_RESET   "\x1b[0m"
+#define ANSI_COLOR_CYAN "\x1b[36m"
+#define ANSI_COLOR_RESET "\x1b[0m"
 
 int test(int *a, int *b)
 {
-  *a = 3;
-  *b = 4;
-
+	*a = 3;
+	*b = 4;
 }
-int main (void) {
+int main(void)
+{
 	char input[100];
 	scanf("%s", input);
-	int count =0;
+	int count = 0;
 	count = 0;
 	int position = 0;
-	for(int i = 0; i < strlen(input); i++)
+	for (int i = 0; i < strlen(input); i++)
 	{
-		if(input[i] == ',')
+		if (input[i] == ',')
 		{
 			count++;
 			position = i;
@@ -45,10 +45,8 @@ int main (void) {
 	printf("%d\n", number);
 	printf("%d\n", number2);
 
-	if(number <= 0)
+	if (number <= 0)
 	{
 		printf("This is not valid.");
-
 	}
-
 }

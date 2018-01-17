@@ -1,91 +1,83 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <stdbool.h>
 
-#include"board.h"
-
+#include "board.h"
 
 void get_user_action(Minesweeper m)
-{   
+{
     char action[100];
     //system("clear"); // in anderem Betriebssystem anpassen --> readme
     print_grid(m, m.board);
     print_grid(m, m.mask);
     printf("\nWhat would you like to do?\n");
     do
-    {   
+    {
         printf("Your options are: r (reveal tile), a (arm tile), d (disarm tile), h (get help), q (quit game).\n");
         scanf("%s", action);
-        if(strlen(action) != 1)
+        if (strlen(action) != 1)
         {
             printf("This is not a valid input.\n");
             continue;
         }
 
-        if(*action == 'r')
+        if (*action == 'r')
         {
             reveal_tile(m);
             break;
         }
-        if(*action == 'a')
+        if (*action == 'a')
         {
             arm_tile(m);
             break;
-            
         }
-        if(*action == 'd')
+        if (*action == 'd')
         {
             disarm_tile(m);
             break;
-            
         }
-        if(*action == 'h')
+        if (*action == 'h')
         {
             print_inGame_help();
             break;
-            
         }
-        if(*action == 'q')
+        if (*action == 'q')
         {
             game_over(m);
             break;
         }
 
-    }while(true);
-  
-
+    } while (true);
 }
 
 void reveal_tile(Minesweeper m)
-{   
+{
     int tile_row, tile_column;
     do
-    { 
+    {
         printf("Which tile do you want to reveal?\n");
         check_input_tile(m, &tile_row, &tile_column);
-        
-        if((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0))
+
+        if ((m.rows < tile_row) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0))
         {
             printf("This is not on the board.\n");
         }
-    }while((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0));
+    } while ((m.rows < tile_row) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0));
 
-    
-    if(*m.ptr_first_round)
+    if (*m.ptr_first_round)
     {
-        while(m.board[tile_row][tile_column] == MINE_TILE)
-        {   
-            int i,j;
+        while (m.board[tile_row][tile_column] == MINE_TILE)
+        {
+            int i, j;
             //reset field to all zeroes (deletes mines)
-            for(i = 1; i <= m.rows; i++)
+            for (i = 1; i <= m.rows; i++)
             {
-                for(j = 1; j <= m.columns; j++)
+                for (j = 1; j <= m.columns; j++)
                 {
-                    
+
                     m.board[i][j] = 0;
-                    
-                }  
+                }
             }
 
             initialize_field(m);
@@ -95,39 +87,38 @@ void reveal_tile(Minesweeper m)
         *m.ptr_start_time = start_time;
 
         *m.ptr_first_round = false;
-
     }
 
     check_revealed_tile(m, tile_row, tile_column);
 }
 
 void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
-{   
+{
 
     int chosen_tile = m.board[tile_row][tile_column];
 
-    if(m.mask[tile_row][tile_column] == ARMED_TILE)
-    {   
+    if (m.mask[tile_row][tile_column] == ARMED_TILE)
+    {
         char answer[100];
-        
+
         printf("This tile is set as armed. Do you wish to disarm it?\n");
         do
         {
             scanf("%s", answer);
-            while(strlen(answer) != 1)
+            while (strlen(answer) != 1)
             {
                 printf("Please answer y for yes or n for no.\n");
                 scanf("%s", answer);
             }
-            
-            if(*answer == 'y')
+
+            if (*answer == 'y')
             {
                 m.mask[tile_row][tile_column] = COVERED_TILE;
                 *m.ptr_number_tiles_armed -= 1;
                 get_user_action(m);
                 break;
             }
-            if(*answer == 'n')
+            if (*answer == 'n')
             {
                 get_user_action(m);
                 break;
@@ -137,71 +128,67 @@ void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
                 printf("Please answer y for yes or n for no.\n");
             }
 
-        }while(true);
+        } while (true);
     }
-    if(m.mask[tile_row][tile_column] != COVERED_TILE)
+    if (m.mask[tile_row][tile_column] != COVERED_TILE)
     {
         dig_under_open_tile(m, tile_row, tile_column);
     }
 
-    if(chosen_tile == MINE_TILE)
+    if (chosen_tile == MINE_TILE)
     {
         lost_game(m, tile_row, tile_column);
     }
 
     else
-    {   
-            if(chosen_tile == EMPTY_TILE)
-            {
-                m.mask[tile_row][tile_column] = m.board[tile_row][tile_column];
-                reveal_adjacent_tiles(m, tile_row, tile_column);
-            }
-            else
-            {
-                m.mask[tile_row][tile_column] = m.board[tile_row][tile_column];
-                
-            }
+    {
+        if (chosen_tile == EMPTY_TILE)
+        {
+            m.mask[tile_row][tile_column] = m.board[tile_row][tile_column];
+            reveal_adjacent_tiles(m, tile_row, tile_column);
+        }
+        else
+        {
+            m.mask[tile_row][tile_column] = m.board[tile_row][tile_column];
+        }
     }
 
     count_revealed_tiles(m, tile_row, tile_column);
     get_user_action(m);
-    
 }
 void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
-{   
+{
     int chosen_tile = m.mask[tile_row][tile_column];
 
-    if(m.mask[tile_row][tile_column] == EMPTY_TILE)
+    if (m.mask[tile_row][tile_column] == EMPTY_TILE)
     {
         printf("You cannot dig under an empty tile.");
         get_user_action(m);
     }
     else
-    {   
+    {
         int count = 0;
-        for(int a = (tile_row -1); a <= (tile_row +1); a++)
-        { 
-            for(int b =(tile_column -1); b<= (tile_column +1); b++)
-            {   
+        for (int a = (tile_row - 1); a <= (tile_row + 1); a++)
+        {
+            for (int b = (tile_column - 1); b <= (tile_column + 1); b++)
+            {
                 int temp_a = a;
                 int temp_b = b;
 
-                if(m.boundary)
+                if (m.boundary)
                 {
                     create_boundary_condition(m, &a, &b);
                 }
                 if (m.mask[a][b] == ARMED_TILE)
                 {
                     count++;
-
                 }
                 a = temp_a;
                 b = temp_b;
-
             }
         }
 
-        if(chosen_tile <= count)
+        if (chosen_tile <= count)
         {
             reveal_adjacent_tiles(m, tile_row, tile_column);
         }
@@ -215,84 +202,78 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
 
 void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
 {
-    
-    for(int a = (tile_row -1); a <= (tile_row +1); a++)
-    { 
-        for(int b =(tile_column -1); b<= (tile_column +1); b++)
-        {  
+
+    for (int a = (tile_row - 1); a <= (tile_row + 1); a++)
+    {
+        for (int b = (tile_column - 1); b <= (tile_column + 1); b++)
+        {
             int temp_a = a;
             int temp_b = b;
-            if(m.boundary)
+            if (m.boundary)
             {
                 create_boundary_condition(m, &a, &b);
-                
             }
 
-            if(m.mask[a][b] != COVERED_TILE)
-            {   
+            if (m.mask[a][b] != COVERED_TILE)
+            {
                 a = temp_a;
                 b = temp_b;
                 continue;
             }
 
             //irrelevant for empty tiles but important for digging
-            if(m.board[a][b] == MINE_TILE)
-            {   
+            if (m.board[a][b] == MINE_TILE)
+            {
                 lost_game(m, a, b);
             }
 
             m.mask[a][b] = m.board[a][b];
-            if(m.board[a][b] == EMPTY_TILE)
+            if (m.board[a][b] == EMPTY_TILE)
             {
-               reveal_adjacent_tiles(m, a, b);
+                reveal_adjacent_tiles(m, a, b);
             }
             a = temp_a;
             b = temp_b;
         }
     }
-
 }
 
 void count_revealed_tiles(Minesweeper m, int tile_row, int tile_column)
 {
     int number_tiles_revealed = 0;
-    int i,j;
-    for(i = 1; i <= m.rows; i++)
+    int i, j;
+    for (i = 1; i <= m.rows; i++)
     {
-        
-        for(j = 1; j <= m.columns; j++)
+
+        for (j = 1; j <= m.columns; j++)
         {
-            if(m.mask[i][j] == m.board[i][j])
+            if (m.mask[i][j] == m.board[i][j])
             {
                 number_tiles_revealed++;
-            } 
-            
-        }  
-    
-    if(number_tiles_revealed == (m.rows*m.columns - m.mines))
-    {
-        won_game(m);
-    }
+            }
+        }
 
+        if (number_tiles_revealed == (m.rows * m.columns - m.mines))
+        {
+            won_game(m);
+        }
     }
-
 }
-
 
 void arm_tile(Minesweeper m)
 {
     int tile_row, tile_column;
     do
-    {   
+    {
         printf("Which tile do you want to set as armed?\n");
         check_input_tile(m, &tile_row, &tile_column);
 
-        if(m.mask[tile_row][tile_column] == m.board[tile_row][tile_column])
+        if (m.mask[tile_row][tile_column] == m.board[tile_row][tile_column])
         {
             printf("You cannot arm an open tile.\n");
         }
 
-    }while(m.mask[tile_row][tile_column] == m.board[tile_row][tile_column]);
+    } while (m.mask[tile_row][tile_column] == m.board[tile_row][tile_column]);
 
     m.mask[tile_row][tile_column] = ARMED_TILE;
 
@@ -302,8 +283,8 @@ void arm_tile(Minesweeper m)
 
 void disarm_tile(Minesweeper m)
 {
-    
-    if(*m.ptr_number_tiles_armed == 0)
+
+    if (*m.ptr_number_tiles_armed == 0)
     {
         printf("There are no armed tiles to disarm.\n");
         sleep(2);
@@ -313,36 +294,35 @@ void disarm_tile(Minesweeper m)
     {
         int tile_row, tile_column;
         do
-        {   
+        {
             printf("Which tile do you want to disarm?\n");
             check_input_tile(m, &tile_row, &tile_column);
 
-            if(m.mask[tile_row][tile_column] != ARMED_TILE)
+            if (m.mask[tile_row][tile_column] != ARMED_TILE)
             {
                 printf("This tile is not armed.\n");
             }
-            
-        }while(((m.rows < tile_row ) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0)) || (m.mask[tile_row][tile_column] != ARMED_TILE));
+
+        } while (((m.rows < tile_row) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0)) || (m.mask[tile_row][tile_column] != ARMED_TILE));
 
         m.mask[tile_row][tile_column] = COVERED_TILE;
 
         *m.ptr_number_tiles_armed -= 1;
-        
     }
     get_user_action(m);
 }
 
 void won_game(Minesweeper m)
-{   
+{
     system("clear"); // in anderem Betriebssystem anpassen --> readme
     print_won();
     printf("\n");
-    print_final_mask(m, m.board, true, 0, 0 );
+    print_final_mask(m, m.board, true, 0, 0);
     game_over(m);
 }
 
-void lost_game(Minesweeper m,int loser_row, int loser_column)
-{   
+void lost_game(Minesweeper m, int loser_row, int loser_column)
+{
     system("clear"); // in anderem Betriebssystem anpassen --> readme
     print_lost();
     printf("\n");
@@ -354,14 +334,14 @@ void game_over(Minesweeper m)
 {
     int i;
 
-    for (i = 0; i < m.rows+2; i++) 
+    for (i = 0; i < m.rows + 2; i++)
     {
-    free(m.mask[i]);
+        free(m.mask[i]);
     }
 
     free(m.mask);
 
-    for (i = 0; i < m.rows+2; i++) 
+    for (i = 0; i < m.rows + 2; i++)
     {
         free(m.board[i]);
     }
@@ -372,13 +352,13 @@ void game_over(Minesweeper m)
 }
 
 void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
-{   
+{
 
-    while(true)
+    while (true)
     {
         //char input[100];
         //dachte das hilft vielleicht damit nichts doppelt geprinted wird
-        char *input = malloc(sizeof(char) * 100); 
+        char *input = malloc(sizeof(char) * 100);
 
         scanf("%s", input);
 
@@ -388,15 +368,15 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
         int count = 0;
         int position = 0;
 
-        for(int i = 0; i < strlen(input); i++)
+        for (int i = 0; i < strlen(input); i++)
         {
-            if(input[i] == ',')
+            if (input[i] == ',')
             {
                 count++;
                 position = i;
             }
         }
-        if(count != 1 || position == 0 || position == (strlen(input)-1))
+        if (count != 1 || position == 0 || position == (strlen(input) - 1))
         {
             printf("Please use one comma to sepereate the number of row and column.\n");
             //hilft aber nicht
@@ -404,7 +384,7 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
             continue;
         }
 
-        if(strlen(input) > (get_int_len(m.rows) + get_int_len(m.columns) + 1) || strlen(input) < 3)
+        if (strlen(input) > (get_int_len(m.rows) + get_int_len(m.columns) + 1) || strlen(input) < 3)
         {
             printf("This can't be right.\n");
             free(input);
@@ -416,14 +396,14 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
         *tile_row = atoi(ptr);
         *tile_column = atoi(ptr2);
 
-        if(*tile_row <= 0 || *tile_column <= 0)
+        if (*tile_row <= 0 || *tile_column <= 0)
         {
             printf("This is not valid.\n");
             free(input);
             continue;
         }
 
-        if((m.rows < *tile_row ) || (0 >= *tile_row) || (m.columns < *tile_column) || (*tile_column <= 0))
+        if ((m.rows < *tile_row) || (0 >= *tile_row) || (m.columns < *tile_column) || (*tile_column <= 0))
         {
             printf("This is not on the board.\n");
             free(input);
@@ -431,12 +411,10 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
         }
 
         else
-        {   
+        {
             break;
         }
 
-
-        
         //for whatever reason suddenly not needed
         /*
         int count = 0;
