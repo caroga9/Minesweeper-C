@@ -1,7 +1,6 @@
 #include "board.h"
 
 //TODO:
-//      Kommentare !!  (bevor ich es Sina zeige)
 //      Testfunktionen schreiben !!
 //      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen) !!
 //      Hilfstexte schreiben !

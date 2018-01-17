@@ -71,7 +71,7 @@ void reveal_tile(Minesweeper m)
 {
     int tile_row, tile_column;
 
-    printf("Which tile do you want to reveal?\n");
+    printf("Which tile do you want to reveal?\n(row,column)\n");
 
     //call a function to evaluate input given for tile row and column
     check_input_tile(m, &tile_row, &tile_column);
@@ -305,7 +305,7 @@ void arm_tile(Minesweeper m)
     do
     {
 
-        printf("Which tile do you want to set as armed?\n");
+        printf("Which tile do you want to set as armed?\n(row,column)\n");
 
         //check user input for row and column of tile to arm
         check_input_tile(m, &tile_row, &tile_column);
@@ -343,7 +343,7 @@ void disarm_tile(Minesweeper m)
         int tile_row, tile_column;
         do
         {
-            printf("Which tile do you want to disarm?\n");
+            printf("Which tile do you want to disarm?\n(row,column)\n");
 
             //check user input for row and column of tile to disarm
             check_input_tile(m, &tile_row, &tile_column);
