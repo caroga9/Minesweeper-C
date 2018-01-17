@@ -14,7 +14,7 @@ void get_user_action(Minesweeper m)
     //clear the terminal to create illusion of a static field (might not work in other operating systems than ubuntu)
     system("clear");
 
-//noch rausnehmen vor Abgabe
+    //noch rausnehmen vor Abgabe
     print_grid(m, m.board);
 
     print_grid(m, m.mask);
@@ -22,11 +22,11 @@ void get_user_action(Minesweeper m)
     do
     {
         printf("Your options are: r (reveal tile), a (arm tile), d (disarm tile), h (get help), q (quit game).\n");
-        
-        //get user input and store it 
+
+        //get user input and store it
         scanf("%s", action);
 
-        //give feedback for invalid input 
+        //give feedback for invalid input
         //check for right length
         if (strlen(action) != 1)
         {
@@ -153,7 +153,7 @@ void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
                 break;
             }
             else
-            {   
+            {
                 //give feedback for false input
                 printf("Please answer y for yes or n for no.\n");
             }
@@ -175,7 +175,7 @@ void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
 
     //if none of the above conditions are met, the tile is revealed
     else
-    {   
+    {
         //if there is a 0 tile underneath, adjacent tiles get revealed as well
         if (chosen_tile == EMPTY_TILE)
         {
@@ -220,7 +220,7 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
 
                 if (m.boundary)
                 {
-                    //call function for periodic boundary conditions 
+                    //call function for periodic boundary conditions
                     //to be able to properly reveal adjacent tiles
                     create_boundary_condition(m, &a, &b);
                 }
@@ -230,14 +230,14 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
                 {
                     count++;
                 }
-                //boundary conditions will overwrite a and b 
+                //boundary conditions will overwrite a and b
                 //and they need to be reset for the next iteration
                 a = temp_a;
                 b = temp_b;
             }
         }
 
-        //call the function to reveal adjacent tiles 
+        //call the function to reveal adjacent tiles
         //if there are enough surrounding tiles marked as armed
         if (chosen_tile <= count)
         {
@@ -269,7 +269,7 @@ void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
             //skip the tile if it is either already open or an armed tile
             if (m.mask[a][b] != COVERED_TILE)
             {
-                //boundary conditions will overwrite a and b 
+                //boundary conditions will overwrite a and b
                 //and they need to be reset for the next iteration
                 a = temp_a;
                 b = temp_b;
@@ -291,7 +291,7 @@ void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
             {
                 reveal_adjacent_tiles(m, a, b);
             }
-            
+
             //reset a and b for next iteration
             a = temp_a;
             b = temp_b;
@@ -299,13 +299,12 @@ void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
     }
 }
 
-
 void arm_tile(Minesweeper m)
 {
     int tile_row, tile_column;
     do
-    {   
-        
+    {
+
         printf("Which tile do you want to set as armed?\n");
 
         //check user input for row and column of tile to arm
@@ -453,7 +452,7 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
         }
 
         else
-        {   
+        {
             //break out of the loop if everything is fine
             break;
         }
@@ -461,7 +460,7 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
 }
 
 void won_game(Minesweeper m)
-{   
+{
 
     system("clear");
 
@@ -477,7 +476,7 @@ void won_game(Minesweeper m)
 void lost_game(Minesweeper m, int loser_row, int loser_column)
 {
     system("clear");
-    
+
     //tell the player they have lost
     print_lost();
     printf("\n");
@@ -510,6 +509,3 @@ void game_over(Minesweeper m)
     //exit the program
     exit(0);
 }
-
-
- 

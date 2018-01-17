@@ -24,7 +24,7 @@ void create_mines(Minesweeper m)
 
         //repeat search for position as long as its already occupied
         do
-        {   
+        {
             //get a random number between 1 and number of rows
             position_row = rand() % ((m.rows + 1) - 1) + 1;
             //same for columns
@@ -41,12 +41,12 @@ void create_mask(Minesweeper m)
 {
     int i, j;
 
-    //loop through all tiles 
+    //loop through all tiles
     for (i = 1; i <= m.rows; i++)
     {
 
         for (j = 1; j <= m.columns; j++)
-        {   
+        {
             //place a tile-cover on every position in the mask
             m.mask[i][j] = COVERED_TILE;
         }
@@ -71,7 +71,7 @@ void number_fields(Minesweeper m)
 
                 //loop through all adjacent tiles
                 for (int a = (i - 1); a <= (i + 1); a++)
-                {   
+                {
                     for (int b = (j - 1); b <= (j + 1); b++)
                     {
                         //this is only relevant if boundary conditions are active
@@ -88,7 +88,7 @@ void number_fields(Minesweeper m)
                             count++;
                         }
 
-                        //boundary conditions will overwrite a and b 
+                        //boundary conditions will overwrite a and b
                         //and they need to be reset for the next iteration
                         a = temp_a;
                         b = temp_b;
@@ -185,9 +185,8 @@ void create_boundary_condition(Minesweeper m, int *a, int *b)
     }
 }
 
-
 int timer(Minesweeper m)
-{   
+{
     //call time() function to get current time
     time_t now = time(0);
 
@@ -214,7 +213,6 @@ int get_int_len(int value)
 
     return len;
 }
-
 
 void print_grid(Minesweeper m, int **grid)
 {

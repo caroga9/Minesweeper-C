@@ -12,7 +12,7 @@
 int main(int argc, char *argv[])
 {
     //declare minesweeper as struct of type Minesweeper
-    Minesweeper minesweeper; 
+    Minesweeper minesweeper;
 
     //parse command line arguments
     //check number of arguments
