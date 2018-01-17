@@ -2,7 +2,6 @@
 
 //TODO: 
 //      Kommentare !!  (bevor ich es Sina zeige)
-//      Test.c nochmal anschauen und game_logic.c anpassen. Wieso geht das auf einmal??
 //      Testfunktionen schreiben !!
 //      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen) !!
 //      Hilfstexte schreiben !
@@ -84,11 +83,13 @@ int main(int argc, char *argv[])
     //minesweeper.ptr_number_tiles_revealed = &minesweeper.number_tiles_revealed;
     minesweeper.ptr_start_time = &minesweeper.start_time;
     minesweeper.ptr_number_tiles_armed = &minesweeper.number_tiles_armed;
+    minesweeper.ptr_first_round = &minesweeper.first_round;
 
     *minesweeper.ptr_number_tiles_armed = 0;
     //*minesweeper.ptr_number_tiles_revealed = 0;
     
-    bool first_round = true;
+    *minesweeper.ptr_first_round = true;
+    
 
 
     int i;
@@ -106,7 +107,7 @@ int main(int argc, char *argv[])
     sleep(3);
     initialize_field(minesweeper);
     
-    get_user_action(minesweeper, &first_round);
+    get_user_action(minesweeper);
    
     
 

@@ -17,6 +17,9 @@ typedef struct Minesweeper{
         //int number_tiles_revealed;
         //int *ptr_number_tiles_revealed;
         bool boundary;
+
+        bool first_round;
+        bool *ptr_first_round;
         
         int number_tiles_armed;
         int *ptr_number_tiles_armed;
@@ -54,8 +57,8 @@ void initialize_field(Minesweeper m);
 void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column);
 void check_revealed_tile(Minesweeper m, int tile_row, int tile_column);
 void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column);
-void reveal_tile(Minesweeper m, bool **ptr_first_round);
-void get_user_action(Minesweeper m, bool *first_round);
+void reveal_tile(Minesweeper m);
+void get_user_action(Minesweeper m);
 void lost_game(Minesweeper m, int loser_row, int loser_column);
 void won_game(Minesweeper m);
 void arm_tile(Minesweeper m);
