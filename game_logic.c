@@ -452,11 +452,8 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
             continue;
         }
 
-        else
-        {
-            //break out of the loop if everything is fine
-            break;
-        }
+        //break out of the loop if everything is fine
+        break;
     }
 }
 
