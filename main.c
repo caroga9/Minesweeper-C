@@ -2,92 +2,58 @@
 
 //TODO:
 //      Testfunktionen schreiben !!
-//      Argumente aus Kommandozeile besser evaluieren (+ getopt Funktion anschauen) !!
 //      Hilfstexte schreiben !
-
 
 int main(int argc, char *argv[])
 {
     //declare minesweeper as struct of type Minesweeper
     Minesweeper minesweeper;
 
-    //parse command line arguments
-    //check number of arguments
-    if (argc == 2)
+    //default parameters
+    int option = 0;
+    minesweeper.rows = 8;
+    minesweeper.columns = 8;
+    minesweeper.mines = 7;
+    minesweeper.boundary = false;
+
+    //parse input and 
+    while ((option = getopt(argc, argv, "r:c:m:hb")) != -1)
     {
-        if (*argv[1] == 'h')
+        switch (option)
         {
+        case 'r':
+            if(!(minesweeper.rows = atoi(optarg)))
+            {
+                exit(0);
+            }
+            break;
+        case 'c':
+            if(!(minesweeper.columns = atoi(optarg)))
+            {
+                exit(0);
+            }
+            break;
+        case 'm':
+            if(!(minesweeper.mines = atoi(optarg)))
+            {
+                exit(0);
+            }
+            break;
+        case 'h':
             print_help();
             exit(0);
-        }
-
-        //if there aren't enough arguments given, start default game
-        else
-        {
-            minesweeper.rows = 8;
-            minesweeper.columns = 8;
-            minesweeper.mines = 7;
-            minesweeper.boundary = false;
+            break;
+        case 'b':
+            minesweeper.boundary = true;
+            break;
+        default:
+            break;
         }
     }
 
-    //if there aren't enough arguments given, start default game
-    if (argc == 3 || argc == 1)
+    if(minesweeper.mines >= (minesweeper.rows*minesweeper.columns))
     {
-        minesweeper.rows = 8;
-        minesweeper.columns = 8;
-        minesweeper.mines = 7;
-        minesweeper.boundary = false;
-    }
-
-    //if there are enough arguments, check for reasonable numbers
-    if (argc == 4)
-    {
-        if (atoi(argv[1]) > 99 || atoi(argv[2]) > 99)
-        {
-            printf("This field is too large (under 100 is fine)");
-            exit(0);
-        }
-        if (atoi(argv[3]) >= atoi(argv[1]) * atoi(argv[2]))
-        {
-            printf("You cannot have a field full of mines.");
-            exit(0);
-        }
-
-        //set given numbers as field parameters
-        minesweeper.rows = atoi(argv[1]);
-        minesweeper.columns = atoi(argv[2]);
-        minesweeper.mines = atoi(argv[3]);
-        minesweeper.boundary = false;
-    }
-
-    //same as before but including argument for game with boundary conditions
-    if (argc == 5)
-    {
-        if (atoi(argv[1]) > 99 || atoi(argv[2]) > 99)
-        {
-            printf("This field is too large (under 100 is fine)");
-            exit(0);
-        }
-        if (atoi(argv[3]) >= atoi(argv[1]) * atoi(argv[2]))
-        {
-            printf("You cannot have a field full of mines.");
-            exit(0);
-        }
-
-        minesweeper.rows = atoi(argv[1]);
-        minesweeper.columns = atoi(argv[2]);
-        minesweeper.mines = atoi(argv[3]);
-
-        //include boundary conditions
-        minesweeper.boundary = true;
-    }
-
-    //give useful information on how to give command line arguments
-    if (argc > 5)
-    {
-        printf("Enter either nothing to start default game or numbers in the following order:\n");
-        printf("rows rolumns mines (optional: any number for game with boundary conditions)\n");
+        printf("At least one tile must be mine-free.\n");
         exit(0);
     }
 
