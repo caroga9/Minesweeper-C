@@ -20,12 +20,16 @@ void get_user_action(Minesweeper m)
 
     print_grid(m, m.mask, false, false, 0, 0);
     printf("\nWhat would you like to do?\n");
+
     do
     {
         printf("Your options are: r (reveal tile), a (arm tile), d (disarm tile), h (get help), q (quit game).\n");
 
         //get user input and store it
-        scanf("%s", action);
+        fgets(action, 100, stdin);
+        if ((strlen(action) > 0) && (action[strlen (action) - 1] == '\n')) {
+            action[strlen (action) - 1] = '\0';
+        }
 
         //give feedback for invalid input
         //check for right length
@@ -37,31 +41,27 @@ void get_user_action(Minesweeper m)
 
         //evaluate input and call respective function
 
-        if (*action == 'r')
-        {
-            reveal_tile(m);
-            break;
+        switch(*action) {
+            case 'r' :
+                reveal_tile(m);
+                break;
+            case 'a' :
+                arm_tile(m);
+                break;
+            case 'd' :
+                disarm_tile(m);
+                break;
+            case 'h' :
+                print_inGame_help();
+                break;
+            case 'q' :
+                game_over(m);
+                break;
+            default :
+                continue;
         }
-        if (*action == 'a')
-        {
-            arm_tile(m);
-            break;
-        }
-        if (*action == 'd')
-        {
-            disarm_tile(m);
-            break;
-        }
-        if (*action == 'h')
-        {
-            print_inGame_help();
-            break;
-        }
-        if (*action == 'q')
-        {
-            game_over(m);
-            break;
-        }
+
+        break;
 
         //loop will continue if input doesn't correspond to any of the options
 
@@ -196,6 +196,54 @@ void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
     get_user_action(m);
 }
 
+void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
+{
+    //loop through all adjacent tiles
+    for (int a = (tile_row - 1); a <= (tile_row + 1); a++)
+    {
+        for (int b = (tile_column - 1); b <= (tile_column + 1); b++)
+        {
+            //relevant for boundary conditions
+            int temp_a = a;
+            int temp_b = b;
+            if (m.boundary)
+            {
+                create_boundary_condition(m, &a, &b);
+            }
+
+            //skip the tile if it is either already open or an armed tile
+            if (m.mask[a][b] != COVERED_TILE)
+            {
+                //boundary conditions will overwrite a and b
+                //and they need to be reset for the next iteration
+                a = temp_a;
+                b = temp_b;
+                continue;
+            }
+
+            //irrelevant for empty tiles but important for digging
+            //if there was a mistake in arming the tiles the player loses
+            if (m.board[a][b] == MINE_TILE)
+            {
+                lost_game(m, a, b);
+            }
+
+            //reveal tile
+            m.mask[a][b] = m.board[a][b];
+
+            //cascade-effect. if an empty tile gets revealed, all its adjacent tiles will be revealed as well
+            if (m.board[a][b] == EMPTY_TILE)
+            {
+                reveal_adjacent_tiles(m, a, b);
+            }
+
+            //reset a and b for next iteration
+            a = temp_a;
+            b = temp_b;
+        }
+    }
+}
+
 void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
 {
     int chosen_tile = m.mask[tile_row][tile_column];
@@ -248,54 +296,6 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
         {
             printf("There aren't enough surrounding armed tiles to dig\n");
             get_user_action(m);
-        }
-    }
-}
-
-void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
-{
-    //loop through all adjacent tiles
-    for (int a = (tile_row - 1); a <= (tile_row + 1); a++)
-    {
-        for (int b = (tile_column - 1); b <= (tile_column + 1); b++)
-        {
-            //relevant for boundary conditions
-            int temp_a = a;
-            int temp_b = b;
-            if (m.boundary)
-            {
-                create_boundary_condition(m, &a, &b);
-            }
-
-            //skip the tile if it is either already open or an armed tile
-            if (m.mask[a][b] != COVERED_TILE)
-            {
-                //boundary conditions will overwrite a and b
-                //and they need to be reset for the next iteration
-                a = temp_a;
-                b = temp_b;
-                continue;
-            }
-
-            //irrelevant for empty tiles but important for digging
-            //if there was a mistake in arming the tiles the player loses
-            if (m.board[a][b] == MINE_TILE)
-            {
-                lost_game(m, a, b);
-            }
-
-            //reveal tile
-            m.mask[a][b] = m.board[a][b];
-
-            //cascade-effect. if an empty tile gets revealed, all its adjacent tiles will be revealed as well
-            if (m.board[a][b] == EMPTY_TILE)
-            {
-                reveal_adjacent_tiles(m, a, b);
-            }
-
-            //reset a and b for next iteration
-            a = temp_a;
-            b = temp_b;
         }
     }
 }
@@ -398,7 +398,10 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
     while (true)
     {
         char input[100];
-        scanf("%s", input);
+        fgets(input, 100, stdin);
+        if ((strlen(input) > 0) && (input[strlen (input) - 1] == '\n')) {
+            input[strlen (input) - 1] = '\0';
+        }
 
         char *ptr;
         char *ptr2;

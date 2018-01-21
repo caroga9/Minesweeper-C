@@ -20,10 +20,16 @@ int test(int *a, int *b)
 int main(void)
 {
 	char input[100];
-	scanf("%s", input);
+	fgets(input, 100, stdin);
+	//scanf("%s", input);
 	int count = 0;
 	count = 0;
 	int position = 0;
+
+	printf("laenge input: %d\n", strlen(input));
+
+
+
 	for (int i = 0; i < strlen(input); i++)
 	{
 		if (input[i] == ',')
