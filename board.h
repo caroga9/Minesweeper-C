@@ -1,12 +1,12 @@
 #include "game_logic.h"
 
-void create_mines(Minesweeper m);
+void create_mines(Minesweeper m, int first_tile_row, int first_tile_column);
 
 void number_fields(Minesweeper m);
 
 void create_mask(Minesweeper m);
 
-void initialize_field(Minesweeper m);
+void initialize_field(Minesweeper m, int tile_row, int tile_column);
 
 void create_boundary_condition(Minesweeper m, int *a, int *b);
 

@@ -52,6 +52,8 @@ void print_inGame_help()
 
 void print_help()
 {
-    printf("Hilfstext\n");
+    printf("Optional arguments: -r, -c, -m. (For rows, columns and mines) Each followed by a number.\n\
+Example: ./minesweeper -r 10 -c 10 -m 9\n\
+If you want to play the extended version with periodic boundary conditions, add '-b'.\n");
 
 }

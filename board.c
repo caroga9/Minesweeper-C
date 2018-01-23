@@ -1,17 +1,16 @@
 #include "board.h"
 
 //call all functions neccessary to create the board and mask
-void initialize_field(Minesweeper m)
+void initialize_field(Minesweeper m, int tile_row, int tile_column)
 {
 
-    create_mines(m);
+    create_mines(m, tile_row, tile_column);
     number_fields(m);
-    create_mask(m);
 
     printf("\n");
 }
 
-void create_mines(Minesweeper m)
+void create_mines(Minesweeper m, int first_tile_row, int first_tile_column)
 {
     int position_row, position_column;
 
@@ -30,7 +29,7 @@ void create_mines(Minesweeper m)
             //same for columns
             position_column = rand() % ((m.columns + 1) - 1) + 1;
 
-        } while (m.board[position_row][position_column] == MINE_TILE);
+        } while (m.board[position_row][position_column] == MINE_TILE || (position_row == first_tile_row && position_column == first_tile_column));
 
         //place mine on respective position on the board
         m.board[position_row][position_column] = MINE_TILE;

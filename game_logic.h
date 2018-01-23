@@ -54,7 +54,7 @@ typedef struct Minesweeper
 #define COLOR_1 "\x1b[96m"
 #define COLOR_RESET "\x1b[0m"
 
-void initialize_field(Minesweeper m);
+
 void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column);
 void check_revealed_tile(Minesweeper m, int tile_row, int tile_column);
 void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column);

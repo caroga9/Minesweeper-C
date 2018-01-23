@@ -14,62 +14,66 @@ void get_user_action(Minesweeper m)
 
     //clear the terminal to create illusion of a static field (might not work in other operating systems than ubuntu)
     system("clear");
-    //system("cls"); //windows
 
-    //noch rausnehmen vor Abgabe
-    //print_grid(m, m.board);
-   
     print_grid(m, m.mask, false, false, 0, 0);
-    printf("\nWhat would you like to do?\n");
-
-    do
+    if(*m.ptr_first_round)
     {
-        printf("Your options are: r (reveal tile), a (arm tile), d (disarm tile), h (get help), q (quit game).\n");
+        reveal_tile(m);
+    }
 
-        //get user input and store it
-        fgets(action, 100, stdin);
-        if ((strlen(action) > 0) && (action[strlen (action) - 1] == '\n')) {
-            action[strlen (action) - 1] = '\0';
-        }
+    if(!*m.ptr_first_round)
+    {
+        printf("\nWhat would you like to do?\n");
 
-        //give feedback for invalid input
-        //check for right length
-        if (strlen(action) != 1)
+        do
         {
-            printf("This is not a valid input.\n");
-            fprintf(file,"In 'get_user_action'; wrong user input: %s\n", action);
-            continue;
-        }
+            printf("Your options are: r (reveal tile), a (arm tile), d (disarm tile), h (get help), q (quit game).\n");
 
-        //evaluate input and call respective function
+            //get user input and store it
+            fgets(action, 100, stdin);
+            if ((strlen(action) > 0) && (action[strlen (action) - 1] == '\n')) {
+                action[strlen (action) - 1] = '\0';
+            }
 
-        switch(*action) {
-            case 'r' :
-                reveal_tile(m);
-                break;
-            case 'a' :
-                arm_tile(m);
-                break;
-            case 'd' :
-                disarm_tile(m);
-                break;
-            case 'h' :
-                print_inGame_help();
-                get_user_action(m);
-                break;
-            case 'q' :
-                game_over(m);
-                break;
-            default :
-            fprintf(file,"In 'get_user_action'; wrong user input: %s\n", action);
+            //give feedback for invalid input
+            //check for right length
+            if (strlen(action) != 1)
+            {
+                printf("This is not a valid input.\n");
+                fprintf(file,"In 'get_user_action'; wrong user input: %s\n", action);
                 continue;
-        }
+            }
 
-        break;
+            //evaluate input and call respective function
 
-        //loop will continue if input doesn't correspond to any of the options
+            switch(*action) {
+                case 'r' :
+                    reveal_tile(m);
+                    break;
+                case 'a' :
+                    arm_tile(m);
+                    break;
+                case 'd' :
+                    disarm_tile(m);
+                    break;
+                case 'h' :
+                    print_inGame_help();
+                    get_user_action(m);
+                    break;
+                case 'q' :
+                    game_over(m);
+                    break;
+                default :
+                fprintf(file,"In 'get_user_action'; wrong user input: %s\n", action);
+                    continue;
+            }
 
-    } while (true);
+            break;
+
+            //loop will continue if input doesn't correspond to any of the options
+
+        } while (true);
+    }
 }
 
 void reveal_tile(Minesweeper m)
@@ -84,9 +88,12 @@ void reveal_tile(Minesweeper m)
     //user cannot lose by revealing the very first tile
     if (*m.ptr_first_round)
     {
+
+        initialize_field(m, tile_row, tile_column);
+
         //if the chosen tile (in the first round) has a mine, the field will be reset
         //this will be repeated until the chosen tile is safe
-        while (m.board[tile_row][tile_column] == MINE_TILE)
+       /* while (m.board[tile_row][tile_column] == MINE_TILE)
         {
             int i, j;
             //reset field to all zeroes (deletes mines)
@@ -102,7 +109,7 @@ void reveal_tile(Minesweeper m)
             //create a new field
             initialize_field(m);
         }
-
+*/
         //set start time
         time_t start_time = time(0);
         *m.ptr_start_time = start_time;

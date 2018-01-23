@@ -27,18 +27,21 @@ int main(int argc, char *argv[])
         case 'r':
             if(!(minesweeper.rows = atoi(optarg)))
             {
+                fprintf(file, "In 'main': wrong command line argument: %s", optarg);
                 exit(0);
             }
             break;
         case 'c':
             if(!(minesweeper.columns = atoi(optarg)))
             {
+                fprintf(file, "In 'main': wrong command line argument: %s", optarg);
                 exit(0);
             }
             break;
         case 'm':
             if(!(minesweeper.mines = atoi(optarg)))
             {
+                fprintf(file, "In 'main': wrong command line argument: %s", optarg);
                 exit(0);
             }
             break;
@@ -50,6 +53,7 @@ int main(int argc, char *argv[])
             minesweeper.boundary = true;
             break;
         default:
+            //fprintf(file, "In 'main': wrong command line input: %s", option);
             break;
         }
     }
@@ -89,8 +93,7 @@ int main(int argc, char *argv[])
     sleep(3);
 
     //start game
-    initialize_field(minesweeper);
-
+    create_mask(minesweeper);
     get_user_action(minesweeper);
 
     //free memory when game is over

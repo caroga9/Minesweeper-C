@@ -12,19 +12,25 @@
 ## 1 Introduction
 ---
 This project contains a console implementation of the well-known game 'Minesweeper'.
-It is written in C and tested in a linux terminal
-...
-(... exit() und clear function für verschiedene Betriebssysteme erwähnen)
-...
+It is written in C and tested in a ubuntu terminal
+The function to clear the screen used in this program: system("clear") needs to be changed to: system("cls") for Windows.
 Please note that especially colors are dependant of the operating system and color scheme of your terminal. Therefore they might not appear the way they should.
 
 ## 2 How to use the program
 ---
 To start the program, run the executable "Minesweeper". You have the option of adding arguments for the number of rows, columns and mines as well as the additional option of playing an extended version of the game with periodic boundary conditions.
-...
-(erklären was genau man wie eingeben muss)
-...
-If you don't provide any command line arguments, the default game with 8 rows, 8 columns and 7 mines and no periodic boundary conditions will start.
+
+To compile to programm using gcc, type:
+'''
+gcc -o minesweeper text.c game_logic.c board.c main.c
+'''
+In that order.
+To run the executable, use for example
+'''
+./minesweeper -r 10 -c 10 -m 10
+'''
+This will run the game with a board consisting of 10 rows, columns and mines and no boundary conditions. If you want to play the extended version, add -b to invoke the periodic boundary conditions.
+The arguments are optional. If you don't provide any command line arguments, the default game with 8 rows, 8 columns and 7 mines and no periodic boundary conditions will start. Every argument you privide overwrites the respective default parameter.
 
 ## 3 Rules and functionalities of the game
 ---
@@ -45,21 +51,21 @@ Having periodic boundary conditions in this game means that all tiles have the s
 Instead of a board like this:
 
 ```
-| | | | | | | | | | |
-| |2|x|2| | | | | | |
-| |2|x|3|1| | | | | |
-| |1|2|x|1| | | | | |
-| | |1|1|2|1|2|1|1| |
-| | | | |1|x|2|x|1| |
-| | |1|1|2|1|2|1|1| |
-| |1|2|x|1| | | | | |
-| |1|x|2|1| | | | | |
-| | | | | | | | | | |
+
+|2|x|2| | | | | |
+|2|x|3|1| | | | |
+|1|2|x|1| | | | |
+| |1|1|2|1|2|1|1|
+| | | |1|x|2|x|1|
+| |1|1|2|1|2|1|1|
+|1|2|x|1| | | | |
+|1|x|2|1| | | | |
+
 ```
 
 You actually have a board like this:
 ```
-| |1|x|2|1| | | | | |
+| |1|x|2|1| | | | |1|
 | |2|x|2| | | | | |2|
 | |2|x|3|1| | | | |2|  
 | |1|2|x|1| | | | |1|    
@@ -68,9 +74,13 @@ You actually have a board like this:
 |1| |1|1|2|1|2|1|1| | 
 | |1|2|x|1| | | | |1|   
 | |1|x|2|1| | | | |1|  
-| |2|x|2|1| | | | | |
+| |2|x|2| | | | | |2|
 
 ```
 The top row is below the bottom row, the right border is left to the left border and vice versa. Therefore you should be careful and take the mines on the other side of the field into account.
 Revealing adjacent tiles, the chain reaction for empty tiles and the digging option all cross the borders. 
+
+## Notation
+---
+
                     
