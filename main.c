@@ -6,6 +6,9 @@
 
 int main(int argc, char *argv[])
 {
+    //create error-file for this run
+    file = fopen("erro_file.txt", "w");
+
     //declare minesweeper as struct of type Minesweeper
     Minesweeper minesweeper;
 

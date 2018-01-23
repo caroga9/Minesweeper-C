@@ -7,6 +7,10 @@
 
 #include "text.h"
 
+
+FILE *file ;
+
+
 typedef struct Minesweeper
 {
     unsigned short int rows;

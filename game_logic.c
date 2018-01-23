@@ -5,6 +5,7 @@
 
 #include "board.h"
 
+
 //this is the heart of the program
 void get_user_action(Minesweeper m)
 {
@@ -17,7 +18,7 @@ void get_user_action(Minesweeper m)
 
     //noch rausnehmen vor Abgabe
     //print_grid(m, m.board);
-
+   
     print_grid(m, m.mask, false, false, 0, 0);
     printf("\nWhat would you like to do?\n");
 
@@ -36,6 +37,7 @@ void get_user_action(Minesweeper m)
         if (strlen(action) != 1)
         {
             printf("This is not a valid input.\n");
+            fprintf(file,"In 'get_user_action'; wrong user input: %s\n", action);
             continue;
         }
 
@@ -53,11 +55,13 @@ void get_user_action(Minesweeper m)
                 break;
             case 'h' :
                 print_inGame_help();
+                get_user_action(m);
                 break;
             case 'q' :
                 game_over(m);
                 break;
             default :
+            fprintf(file,"In 'get_user_action'; wrong user input: %s\n", action);
                 continue;
         }
 
@@ -122,16 +126,20 @@ void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
         char answer[100];
 
         printf("This tile is set as armed. Do you wish to disarm it?\n");
+        printf("Please answer y for yes or n for no.\n");
 
         //get user input and repeat question until the answer is valid
         do
         {
-            scanf("%s", answer);
-
+        fgets(answer, 100, stdin);
+        if ((strlen(answer) > 0) && (answer[strlen (answer) - 1] == '\n')) {
+            answer[strlen (answer) - 1] = '\0';
+        }
             //check for right length
             while (strlen(answer) != 1)
             {
                 printf("Please answer y for yes or n for no.\n");
+                fprintf(file,"In 'check_revealed_tile': wrong user input: %s\n", answer);
                 scanf("%s", answer);
             }
 
@@ -157,6 +165,7 @@ void check_revealed_tile(Minesweeper m, int tile_row, int tile_column)
             {
                 //give feedback for false input
                 printf("Please answer y for yes or n for no.\n");
+                fprintf(file,"In 'check_revealed_tile': wrong user input: %s\n", answer);
             }
 
         } while (true);
@@ -354,7 +363,7 @@ void disarm_tile(Minesweeper m)
             {
                 printf("This tile is not armed.\n");
             }
-        } while (((m.rows < tile_row) || (0 >= tile_row) || (m.columns < tile_column) || (tile_column <= 0)) || (m.mask[tile_row][tile_column] != ARMED_TILE));
+        } while (m.mask[tile_row][tile_column] != ARMED_TILE);
 
         //disarm tile
         m.mask[tile_row][tile_column] = COVERED_TILE;
@@ -423,6 +432,7 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
         if (count != 1 || position == 0 || position == (strlen(input) - 1))
         {
             printf("Please use one comma to sepereate the number of row and column.\n");
+            fprintf(file,"In 'check_input_tile': wrong user input: %s\n", input);
             continue;
         }
 
@@ -430,6 +440,7 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
         if (strlen(input) > (get_int_len(m.rows) + get_int_len(m.columns) + 1) || strlen(input) < 3)
         {
             printf("This can't be right.\n");
+            fprintf(file,"In 'check_input_tile': wrong user input: %s\n", input);
             continue;
         }
 
@@ -445,6 +456,7 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
         if (*tile_row <= 0 || *tile_column <= 0)
         {
             printf("This is not valid.\n");
+            fprintf(file,"In 'check_input_tile': wrong user input: %s\n", input);
             continue;
         }
 
@@ -452,6 +464,7 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
         if ((m.rows < *tile_row) || (0 >= *tile_row) || (m.columns < *tile_column) || (*tile_column <= 0))
         {
             printf("This is not on the board.\n");
+            fprintf(file,"In 'check_input_tile': wrong user input: %s (Not on  the board)\n", input);
             continue;
         }
 
