@@ -80,7 +80,25 @@ You actually have a board like this:
 The top row is below the bottom row, the right border is left to the left border and vice versa. Therefore you should be careful and take the mines on the other side of the field into account.
 Revealing adjacent tiles, the chain reaction for empty tiles and the digging option all cross the borders. 
 
-## Notation
+## 4 Running Tests
 ---
+Wrong user input gets automatically stored into a log file. This way, the error message doesn't interrupt the game, but if something goes wrong, it is easy to keep track of what happened.
 
+The functions themselves can be tested by running the testing-executable.
+To compile, use 
+```
+gcc -o test text.c game_logic.c board.c test_functions.c test_main.c
+```
+The output should look something like this:
+```
+create_mines:                                            OK
+create_mask:                                             OK
+number_fields (no boundary-condition):                   OK
+number_fields (boundary-condition):                      OK
+reveal_adjacent_tiles (no boundary-condition):           OK
+dig_under_open_tile (boundary-condition):                OK
+dig_under_open_tile (no boundary-condition):             OK
+----------------------------------------------------------------------------------------
+Tests run: 7,  failed 0, passed: 7
+```
                     

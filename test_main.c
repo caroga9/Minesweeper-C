@@ -45,43 +45,43 @@ int main(void)
     if (create_mines_test(m_mines, 1, 1))
     {
         testsPassed++;
-        printf("create_mines:          OK\n");
+        printf("create_mines:                                           \x1b[32m OK\x1b[0m \n");
     }
     else
     {
         testsFailed++;
-        printf("create_mines:          FAILED\n");
+        printf("create_mines:                                           \x1b[31m FAILED\x1b[0m \n");
     }
 
     if (create_mask_test(m_mask))
     {
         testsPassed++;
-        printf("create_mask:           OK\n");
+        printf("create_mask:                                            \x1b[32m OK\x1b[0m \n");
     }
     else
     {
         testsFailed++;
-        printf("create_mask:           FAILED\n");
+        printf("create_mask:                                            \x1b[31m FAILED\x1b[0m \n");
     }
     if (number_fields_test(m_number, false))
     {
         testsPassed++;
-        printf("number_fields (no boundary-condition):   OK\n");
+        printf("number_fields (no boundary-condition):                  \x1b[32m OK\x1b[0m \n");
     }
     else
     {
-        testsFailed++;
-        printf("number_fields (no boundary-condition):           FAILED\n");
+        testsFailed++;   
+        printf("number_fields (no boundary-condition):                  \x1b[31m FAILED\x1b[0m \n");
     }
     if (number_fields_test(m_number, true))
     {
         testsPassed++;
-        printf("number_fields (boundary-condition):   OK\n");
+        printf("number_fields (boundary-condition):                     \x1b[32m OK\x1b[0m \n");
     }
     else
     {
         testsFailed++;
-        printf("number_fields (boundary-condition):           FAILED\n");
+        printf("number_fields (boundary-condition):                     \x1b[31m FAILED\x1b[0m \n");
     }
 /*
     if (reveal_adjacent_tiles_test(m_filled, 3,3, true))
@@ -99,35 +99,35 @@ int main(void)
     if (reveal_adjacent_tiles_test(m_filled, 3,3, false))
     {
         testsPassed++;
-        printf("reveal_adjacent_tiles (no boundary-condition):   OK\n");
+        printf("reveal_adjacent_tiles (no boundary-condition):          \x1b[32m OK\x1b[0m \n");
     }
     else
     {
         testsFailed++;
-        printf("reveal_adjacent_tiles (no boundary-condition):           FAILED\n");
+        printf("reveal_adjacent_tiles (no boundary-condition):          \x1b[31m FAILED\x1b[0m \n");
     }
     if(dig_under_open_tile_test(m_filled,2,1,true))
     {
         testsPassed++;
-        printf("dig_under_open_tile (boundary-condition):   OK\n");
+        printf("dig_under_open_tile (boundary-condition):               \x1b[32m OK\x1b[0m \n");
     }
     else
     {
         testsFailed++;
-        printf("dig_under_open_tile (boundary-condition:    FAILED\n");
+        printf("dig_under_open_tile (boundary-condition:                \x1b[31m FAILED\x1b[0m \n");
     }
 
     if(dig_under_open_tile_test(m_filled,2,1,false))
     {
         testsPassed++;
-        printf("dig_under_open_tile (no boundary-condition):   OK\n");
+        printf("dig_under_open_tile (no boundary-condition):            \x1b[32m OK\x1b[0m \n");
     }
     else
     {
         testsFailed++;
-        printf("dig_under_open_tile (no boundary-condition:    FAILED\n");
+        printf("dig_under_open_tile (no boundary-condition:             \x1b[31m FAILED\x1b[0m \n");
     }
     printf("----------------------------------------------------------------------------------------\n");
-    printf("Tests run: %d, failed: %d, passed: %d\n", testsFailed+testsPassed, testsFailed, testsPassed);
+    printf("Tests run: %d, \x1b[31m failed\x1b[0m %d,\x1b[32m passed\x1b[0m: %d\n", testsFailed+testsPassed, testsFailed, testsPassed);
 
 }
