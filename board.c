@@ -102,7 +102,6 @@ void number_fields(Minesweeper m)
 
     // making sure border tiles that actually don't belong to the board don't get a 0
     // (will be relevant later)
-
     //loop through all columns in the first and last row
     for (i = 0; i <= (m.rows + 1); i += (m.rows + 1))
     {

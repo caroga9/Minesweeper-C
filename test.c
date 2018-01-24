@@ -12,47 +12,42 @@
 #define ANSI_COLOR_CYAN "\x1b[36m"
 #define ANSI_COLOR_RESET "\x1b[0m"
 
-int test(int *a, int *b)
+#define MINE_TILE 42
+typedef struct TestMinesweeper
 {
-	*a = 3;
-	*b = 4;
-}
+    unsigned short int rows;
+    unsigned short int columns;
+    unsigned short int mines;
+    int **mask;
+    int **board;
+
+    bool boundary;
+
+    bool first_round;
+    bool *ptr_first_round;
+
+    int number_tiles_armed;
+    int *ptr_number_tiles_armed;
+
+    long start_time;
+    long *ptr_start_time;
+}Test;
+
 int main(void)
 {
-	char input[100];
-	fgets(input, 100, stdin);
-	//scanf("%s", input);
-	int count = 0;
-	count = 0;
-	int position = 0;
+	Test m_mines = {3,3,3};
+	m_mines.board = malloc((m_mines.rows + 2) * sizeof *m_mines.board);
+	int i;
+    for (i = 0; i < (m_mines.rows + 2); i++)
+    {
+        m_mines.board[i] = malloc((m_mines.columns + 2) * sizeof *m_mines.board[i]);
+    }
 
-	printf("laenge input: %d\n", strlen(input));
-
-
-
-	for (int i = 0; i < strlen(input); i++)
-	{
-		if (input[i] == ',')
-		{
-			count++;
-			position = i;
-		}
-	}
-	printf("comma:%d\n", position);
-	char *ptr;
-	char *ptr2;
-	int number = 0;
-	int number2 = 0;
-
-	ptr = &input[0];
-	ptr2 = &input[2];
-	number = atoi(ptr);
-	number2 = atoi(ptr2);
-	printf("%d\n", number);
-	printf("%d\n", number2);
-
-	if (number <= 0)
-	{
-		printf("This is not valid.");
-	}
+    //...and mask
+    m_mines.mask = malloc((m_mines.rows + 2) * sizeof *m_mines.mask);
+    for (i = 0; i < (m_mines.rows + 2); i++)
+    {
+        m_mines.mask[i] = malloc((m_mines.columns + 2) * sizeof *m_mines.mask[i]);
+    }
+	int test_matrix = m_mines.board;
 }

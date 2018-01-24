@@ -91,25 +91,6 @@ void reveal_tile(Minesweeper m)
 
         initialize_field(m, tile_row, tile_column);
 
-        //if the chosen tile (in the first round) has a mine, the field will be reset
-        //this will be repeated until the chosen tile is safe
-       /* while (m.board[tile_row][tile_column] == MINE_TILE)
-        {
-            int i, j;
-            //reset field to all zeroes (deletes mines)
-            for (i = 1; i <= m.rows; i++)
-            {
-                for (j = 1; j <= m.columns; j++)
-                {
-
-                    m.board[i][j] = 0;
-                }
-            }
-
-            //create a new field
-            initialize_field(m);
-        }
-*/
         //set start time
         time_t start_time = time(0);
         *m.ptr_start_time = start_time;
@@ -419,6 +400,11 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
             input[strlen (input) - 1] = '\0';
         }
 
+        if(*input == 'q')
+        {
+            get_user_action(m);
+            break;
+        }
         char *ptr;
         char *ptr2;
 

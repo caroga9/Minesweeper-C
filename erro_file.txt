@@ -1,0 +1,6 @@
+In 'check_input_tile': wrong user input: oiju
+In 'check_input_tile': wrong user input: 38.9
+In 'check_input_tile': wrong user input: 23,3
+In 'check_input_tile': wrong user input: 1,9 (Not on  the board)
+In 'check_input_tile': wrong user input: 23
+In 'check_input_tile': wrong user input: .,fevw
