@@ -30,6 +30,8 @@ typedef struct Minesweeper
     long start_time;
     long *ptr_start_time;
 
+    bool test;
+
 } Minesweeper;
 
 #define COVERED_TILE 64

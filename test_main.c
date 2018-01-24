@@ -2,9 +2,10 @@
 
 int main(void)
 {
-    Minesweeper m_mines = {3, 3, 3};
-    Minesweeper m_mask = {3, 3};
-    Minesweeper m_number = {3, 3};
+    Minesweeper m_mines = {3, 3, 3,.test = true};
+    Minesweeper m_mask = {3, 3, .test = true};
+    Minesweeper m_number = {3, 3, .test = true};
+    Minesweeper m_filled = {3,3, .test = true};
 
     int i;
     m_mines.board = malloc((m_mines.rows + 2) * sizeof *m_mines.board);
@@ -25,7 +26,18 @@ int main(void)
         m_number.board[i] = malloc((m_number.columns + 2) * sizeof *m_number.board[i]);
     }
     
+    m_filled.board = malloc((m_filled.rows + 2) * sizeof *m_filled.board);
+    for (i = 0; i < (m_filled.rows + 2); i++)
+    {
+        m_filled.board[i] = malloc((m_filled.columns + 2) * sizeof *m_filled.board[i]);
+    }
 
+    m_filled.mask = malloc((m_filled.rows + 2) * sizeof *m_filled.mask);
+    for (i = 0; i < (m_filled.rows + 2); i++)
+    {
+        m_filled.mask[i] = malloc((m_filled.columns + 2) * sizeof *m_filled.mask[i]);
+    }
+    
     m_number.board[1][2] = MINE_TILE;
     m_number.board[2][1] = MINE_TILE;
 
@@ -71,5 +83,51 @@ int main(void)
         testsFailed++;
         printf("number_fields (boundary-condition):           FAILED\n");
     }
+/*
+    if (reveal_adjacent_tiles_test(m_filled, 3,3, true))
+    {
+        testsPassed++;
+        printf("reveal_adjacent_tiles (boundary-condition):   OK\n");
+    }
+
+    else
+    {
+        testsFailed++;
+        printf("reveal_adjacent_tiles (boundary-condition):           FAILED\n");
+    }
+*/ //macht eh nicht viel Sinn
+    if (reveal_adjacent_tiles_test(m_filled, 3,3, false))
+    {
+        testsPassed++;
+        printf("reveal_adjacent_tiles (no boundary-condition):   OK\n");
+    }
+    else
+    {
+        testsFailed++;
+        printf("reveal_adjacent_tiles (no boundary-condition):           FAILED\n");
+    }
+    if(dig_under_open_tile_test(m_filled,2,1,true))
+    {
+        testsPassed++;
+        printf("dig_under_open_tile (boundary-condition):   OK\n");
+    }
+    else
+    {
+        testsFailed++;
+        printf("dig_under_open_tile (boundary-condition:    FAILED\n");
+    }
+
+    if(dig_under_open_tile_test(m_filled,2,1,false))
+    {
+        testsPassed++;
+        printf("dig_under_open_tile (no boundary-condition):   OK\n");
+    }
+    else
+    {
+        testsFailed++;
+        printf("dig_under_open_tile (no boundary-condition:    FAILED\n");
+    }
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("Tests run: %d, failed: %d, passed: %d\n", testsFailed+testsPassed, testsFailed, testsPassed);
 
 }

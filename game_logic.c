@@ -222,7 +222,10 @@ void reveal_adjacent_tiles(Minesweeper m, int tile_row, int tile_column)
             //if there was a mistake in arming the tiles the player loses
             if (m.board[a][b] == MINE_TILE)
             {
-                lost_game(m, a, b);
+                if(!m.test)
+                {
+                    lost_game(m, a, b);
+                }
             }
 
             //reveal tile

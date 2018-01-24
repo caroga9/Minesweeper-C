@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     minesweeper.columns = 8;
     minesweeper.mines = 7;
     minesweeper.boundary = false;
+    minesweeper.test = false;
 
     //parse input and 
     while ((option = getopt(argc, argv, "r:c:m:hb")) != -1)
