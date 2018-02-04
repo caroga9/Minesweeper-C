@@ -55,7 +55,7 @@ To win the game you have to open all tiles, which are not mines or armed tiles. 
 You lose the game if you found a mine. \n");
     printf("Press any button to get back to the game.\n");
     char action[100];
-    scanf("%s", action);
+    fgets(action, 100, stdin);
 }
 
 void print_help()

@@ -251,7 +251,8 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
     //if the open tile that has been chosen to dig under is a 0 tile, all adjacent tiles are already revealed
     if (m.mask[tile_row][tile_column] == EMPTY_TILE)
     {
-        printf("You cannot dig under an empty tile.");
+        printf("You cannot dig under an empty tile.\n");
+        sleep(2);
         get_user_action(m);
     }
 
@@ -295,6 +296,7 @@ void dig_under_open_tile(Minesweeper m, int tile_row, int tile_column)
         else
         {
             printf("There aren't enough surrounding armed tiles to dig\n");
+            sleep(2);
             get_user_action(m);
         }
     }

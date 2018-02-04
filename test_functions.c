@@ -7,23 +7,24 @@ void initialize_filled(Minesweeper m)
     m.board[1][2] = MINE_TILE;
     m.board[1][3] = 1;
 
-    for(int j = 0; j<= m.columns+1; j++)
+    for (int j = 0; j <= m.columns + 1; j++)
     {
         m.board[0][j] = BORDER_TILE;
         m.board[2][j] = 1;
-        if(m.boundary)
+        if (m.boundary)
         {
             m.board[3][j] = 1;
         }
-        else{
+        else
+        {
             m.board[3][j] = EMPTY_TILE;
         }
-        m.board[m.rows+1][j] = BORDER_TILE;
+        m.board[m.rows + 1][j] = BORDER_TILE;
     }
-    for(int i =0; i <= m.rows+1; i++)
+    for (int i = 0; i <= m.rows + 1; i++)
     {
         m.board[i][0] = BORDER_TILE;
-        m.board[i][m.columns+1] = BORDER_TILE;
+        m.board[i][m.columns + 1] = BORDER_TILE;
     }
 
     for (int i = 1; i <= m.rows; i++)
@@ -39,8 +40,8 @@ void initialize_filled(Minesweeper m)
 bool create_mines_test(Minesweeper m, int first_tile_row, int first_tile_column)
 {
     create_mines(m, first_tile_row, first_tile_column);
-    return true;
-   int count = 0;
+
+    int count = 0;
     for (int i = 1; i <= m.rows; i++)
     {
 
@@ -101,10 +102,9 @@ bool number_fields_test(Minesweeper m, bool boundary)
             {BORDER_TILE, BORDER_TILE, BORDER_TILE, BORDER_TILE, BORDER_TILE}};
         number_fields(m);
 
-    
-        for (int i = 0; i < m.rows+1; i++)
+        for (int i = 0; i < m.rows + 1; i++)
         {
-            for (int j = 0; j < m.columns+1; j++)
+            for (int j = 0; j < m.columns + 1; j++)
             {
                 if (m.board[i][j] != test_matrix[i][j])
                 {
@@ -126,9 +126,9 @@ bool number_fields_test(Minesweeper m, bool boundary)
 
         number_fields(m);
 
-        for (int i = 0; i <= m.rows+1; i++)
+        for (int i = 0; i <= m.rows + 1; i++)
         {
-            for (int j = 0; j <= m.columns+1; j++)
+            for (int j = 0; j <= m.columns + 1; j++)
             {
                 if (m.board[i][j] != test_matrix[i][j])
                 {
@@ -137,7 +137,7 @@ bool number_fields_test(Minesweeper m, bool boundary)
             }
         }
     }
-    
+
     return value;
 }
 
@@ -145,21 +145,20 @@ bool reveal_adjacent_tiles_test(Minesweeper m, int tile_row, int tile_column, bo
 {
 
     bool value = true;
-    if(!boundary)
-    {   
+    if (!boundary)
+    {
 
         m.boundary = false;
         initialize_filled(m);
         reveal_adjacent_tiles(m, tile_row, tile_column);
         int test_matrix_1[5][5] = {
-            {COVERED_TILE,COVERED_TILE,COVERED_TILE,COVERED_TILE, COVERED_TILE},
             {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE},
-            {COVERED_TILE,1, 1, 1, COVERED_TILE},
-            {COVERED_TILE,EMPTY_TILE, EMPTY_TILE, EMPTY_TILE, COVERED_TILE},
-            {COVERED_TILE,COVERED_TILE,COVERED_TILE,COVERED_TILE, COVERED_TILE}};
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE},
+            {COVERED_TILE, 1, 1, 1, COVERED_TILE},
+            {COVERED_TILE, EMPTY_TILE, EMPTY_TILE, EMPTY_TILE, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE}};
 
-
-         for (int i = 1; i <= m.rows; i++)
+        for (int i = 1; i <= m.rows; i++)
         {
             for (int j = 1; j <= m.columns; j++)
             {
@@ -169,7 +168,6 @@ bool reveal_adjacent_tiles_test(Minesweeper m, int tile_row, int tile_column, bo
                 }
             }
         }
-        
     }
     else
     {
@@ -177,13 +175,13 @@ bool reveal_adjacent_tiles_test(Minesweeper m, int tile_row, int tile_column, bo
         m.boundary = true;
         initialize_filled(m);
         reveal_adjacent_tiles(m, tile_row, tile_column);
-        
+
         int test_matrix[5][5] = {
-            { COVERED_TILE,COVERED_TILE, COVERED_TILE, COVERED_TILE,COVERED_TILE},
-            {COVERED_TILE,COVERED_TILE, COVERED_TILE, COVERED_TILE,COVERED_TILE},
-            {COVERED_TILE,COVERED_TILE, COVERED_TILE, COVERED_TILE,COVERED_TILE},
-            {COVERED_TILE,COVERED_TILE, COVERED_TILE, 1, COVERED_TILE},
-            {COVERED_TILE,COVERED_TILE,COVERED_TILE,COVERED_TILE, COVERED_TILE}};
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, 1, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE}};
         for (int i = 1; i <= m.rows; i++)
         {
             for (int j = 1; j <= m.columns; j++)
@@ -194,7 +192,6 @@ bool reveal_adjacent_tiles_test(Minesweeper m, int tile_row, int tile_column, bo
                 }
             }
         }
-        
     }
     return value;
 }
@@ -202,9 +199,9 @@ bool reveal_adjacent_tiles_test(Minesweeper m, int tile_row, int tile_column, bo
 bool dig_under_open_tile_test(Minesweeper m, int tile_row, int tile_column, bool boundary)
 {
     bool value = true;
-    if(!boundary)
-    {   
-        
+    if (!boundary)
+    {
+
         m.boundary = false;
         initialize_filled(m);
         m.mask[2][1] = m.board[2][1];
@@ -212,14 +209,13 @@ bool dig_under_open_tile_test(Minesweeper m, int tile_row, int tile_column, bool
 
         dig_under_open_tile(m, tile_row, tile_column);
         int test_matrix_1[5][5] = {
-            {COVERED_TILE,COVERED_TILE,COVERED_TILE,COVERED_TILE, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE},
             {COVERED_TILE, 1, ARMED_TILE, COVERED_TILE, COVERED_TILE},
-            {COVERED_TILE,1, 1, 1, COVERED_TILE},
-            {COVERED_TILE,EMPTY_TILE, EMPTY_TILE, EMPTY_TILE, COVERED_TILE},
-            {COVERED_TILE,COVERED_TILE,COVERED_TILE,COVERED_TILE, COVERED_TILE}};
+            {COVERED_TILE, 1, 1, 1, COVERED_TILE},
+            {COVERED_TILE, EMPTY_TILE, EMPTY_TILE, EMPTY_TILE, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE}};
 
-
-         for (int i = 1; i <= m.rows; i++)
+        for (int i = 1; i <= m.rows; i++)
         {
             for (int j = 1; j <= m.columns; j++)
             {
@@ -229,22 +225,21 @@ bool dig_under_open_tile_test(Minesweeper m, int tile_row, int tile_column, bool
                 }
             }
         }
-        
     }
     else
     {
-        
+
         m.boundary = true;
         initialize_filled(m);
         m.mask[2][1] = m.board[2][1];
         m.mask[1][2] = ARMED_TILE;
         dig_under_open_tile(m, tile_row, tile_column);
         int test_matrix[5][5] = {
-            {COVERED_TILE,COVERED_TILE,COVERED_TILE,COVERED_TILE, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE},
             {COVERED_TILE, 1, ARMED_TILE, 1, COVERED_TILE},
-            {COVERED_TILE,1, 1, 1, COVERED_TILE},
-            {COVERED_TILE,1, 1, 1, COVERED_TILE},
-            {COVERED_TILE,COVERED_TILE,COVERED_TILE,COVERED_TILE, COVERED_TILE}};
+            {COVERED_TILE, 1, 1, 1, COVERED_TILE},
+            {COVERED_TILE, 1, 1, 1, COVERED_TILE},
+            {COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE, COVERED_TILE}};
         for (int i = 1; i <= m.rows; i++)
         {
             for (int j = 1; j <= m.columns; j++)
@@ -255,7 +250,6 @@ bool dig_under_open_tile_test(Minesweeper m, int tile_row, int tile_column, bool
                 }
             }
         }
-        
     }
     return value;
 }
