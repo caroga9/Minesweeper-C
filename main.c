@@ -26,21 +26,21 @@ int main(int argc, char *argv[])
         switch (option)
         {
         case 'r':
-            if(!(minesweeper.rows = atoi(optarg)))
+            if(!(minesweeper.rows = abs(atoi(optarg))))
             {
                 fprintf(file, "In 'main': wrong command line argument: %s", optarg);
                 exit(0);
             }
             break;
         case 'c':
-            if(!(minesweeper.columns = atoi(optarg)))
+            if(!(minesweeper.columns = abs(atoi(optarg))))
             {
                 fprintf(file, "In 'main': wrong command line argument: %s", optarg);
                 exit(0);
             }
             break;
         case 'm':
-            if(!(minesweeper.mines = atoi(optarg)))
+            if(!(minesweeper.mines = abs(atoi(optarg))))
             {
                 fprintf(file, "In 'main': wrong command line argument: %s", optarg);
                 exit(0);

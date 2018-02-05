@@ -50,7 +50,7 @@ Now you have several options: \n\
 - If there is a mine under the tile you opened, you automatically lose. \n\
 - If the tile you opened is an empty tile, then all the adjacent tiles, which are not mines or armed, get revealed.  \n \
 - If there is a number under the tile you opned, you now know how many adjacent tiles are mines. \n \
-- You also can arm a tile under which you think may be a mine. With that choice it is easier to get an overview of the mines on the field. \n \
+- You also can arm a tile under which you think may be a mine (and of course disarm it again). With that choice it is easier to get an overview of the mines on the field. \n \
 To win the game you have to open all tiles, which are not mines or armed tiles. \n \
 You lose the game if you found a mine. \n");
     printf("Press any button to get back to the game.\n");
