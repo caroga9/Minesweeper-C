@@ -1,9 +1,5 @@
 #include "board.h"
 
-//TODO:
-//      Testfunktionen schreiben !!
-//      Hilfstexte schreiben !
-
 int main(int argc, char *argv[])
 {
     //create error-file for this run
@@ -54,7 +50,6 @@ int main(int argc, char *argv[])
             minesweeper.boundary = true;
             break;
         default:
-            //fprintf(file, "In 'main': wrong command line input: %s", option);
             break;
         }
     }

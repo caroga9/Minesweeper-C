@@ -3,5 +3,6 @@
         "field.h": "c",
         "game_logic.h": "c"
     },
+    "python.linting.enabled": false,
    
 }
