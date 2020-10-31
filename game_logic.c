@@ -12,8 +12,14 @@ void get_user_action(Minesweeper m)
     //string to store user input in
     char action[100];
 
-    //clear the terminal to create illusion of a static field (might not work in other operating systems than ubuntu)
+    //clear the terminal to create illusion of a static field
+#ifdef linux
     system("clear");
+#endif
+
+#ifdef _WIN32
+    system("cls");
+#endif
 
     print_grid(m, m.mask, false, false, 0, 0);
     if(*m.ptr_first_round)
@@ -474,7 +480,13 @@ void check_input_tile(Minesweeper m, int *tile_row, int *tile_column)
 void won_game(Minesweeper m)
 {
 
+#ifdef linux
     system("clear");
+#endif
+
+#ifdef _WIN32
+    system("cls");
+#endif
 
     //tell the player they have won
     print_won();
@@ -487,7 +499,13 @@ void won_game(Minesweeper m)
 
 void lost_game(Minesweeper m, int loser_row, int loser_column)
 {
+#ifdef linux
     system("clear");
+#endif
+
+#ifdef _WIN32
+    system("cls");
+#endif
 
     //tell the player they have lost
     print_lost();
