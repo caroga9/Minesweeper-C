@@ -1,3 +1,0 @@
-In 'check_input_tile': wrong user input: 3m3
-In 'check_input_tile': wrong user input: 
-In 'get_user_action'; wrong user input: 
